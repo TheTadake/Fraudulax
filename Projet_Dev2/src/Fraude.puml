@@ -1,6 +1,127 @@
 @startuml
 
+
+
 abstract class Fraude {
-    +v
+    - date: LocalDate
+    - contenu: String
+    - description: String
+
+    + getDate(): LocalDate
+    + getContenu(): String
+    + getDescription(): String
+    + setDate(date: LocalDate): void
+    + setContenu(contenu: String): void
+    + setDescription(description: String): void
+
 }
+
+class FraudeIAG extends Fraude {
+    - final String type = "IAG"
+
+
+}
+
+class FraudePapier extends Fraude {
+    - final String type = "PAPIER"
+
+
+}
+class FraudeCalculatrice extends Fraude {
+    - final String type = "CALCULATRICE"
+
+
+}
+
+
+
+class FraudeIAGConnecte extends FraudeIAG {
+
+    - adresseIP: String
+    + getAdresseIP(): String
+    + setAdresseIP(adresseIP: String): void
+
+}
+class Epreuve {
+    - codeECUE: String
+    - duree: int
+    - datePassage: LocalDate
+    - heurePassage: String
+    + getCodeECUE(): String
+    + getDuree(): int
+    + getDatePassage(): LocalDate
+    + getHeurePassage(): String
+
+
+
+}
+
+abstract Personne {
+    - num: String
+    - nom: String
+    - prenom: String
+    + getNum(): String
+    + getNom(): String
+    + getPrenom(): String
+
+}
+
+class Etudiant extends Personne{
+
+    }
+class Surveillant extends Personne{
+
+    }
+class Professeur extends Personne{
+
+    }
+
+class Formualaire {
+    + rechercheFiltre(): String
+    + statistiques(): String
+    + graphes(): String
+    + getEtudiants(): Etudiants[]
+    + getEpreuves(): Epreuve[]
+    + getFraudes(): Fraude[]
+    + toString(): String
+
+
+
+}
+
+Enum TypeFraude {
+    IAG
+    Papier
+    Calculatrice
+    IAGConnecte
+}
+
+Enum Modalite {
+    Oral
+    Ecrit
+    QCM
+    Ordi
+    Projet
+    TP
+}
+
+Enum Cursus {
+    E1
+    E2
+    E3
+    E4
+    E5
+}
+TypeFraude "1" -- "1" FraudeIAG
+TypeFraude "1"--"1" FraudePapier
+TypeFraude "1"--"1" FraudeCalculatrice
+TypeFraude "1"--"1" FraudeIAGConnecte
+Modalite "1"--"1..*" Epreuve
+Professeur "1"--"1" Epreuve
+Surveillant "1..*"--"1" Epreuve
+Etudiant "1..*"--"1" Cursus
+Fraude "1..*"--"1" Formualaire
+Epreuve "1..*"--"1" Formualaire
+Etudiant "0..*"--"1" Formualaire
+
 @enduml
