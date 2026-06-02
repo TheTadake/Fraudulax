@@ -15,8 +15,8 @@ public abstract class Fraude {
         this.description = description;
     }
 
-    public LocalDate getData() {return date;}
-    public void setData(LocalDate date) {this.date = date;}
+    public LocalDate getDate() {return date;}
+    public void setDate(LocalDate date) {this.date = date;}
 
     public String getContenu() {return contenu;}
     public void setContenu(String contenu) {this.contenu = contenu;}
