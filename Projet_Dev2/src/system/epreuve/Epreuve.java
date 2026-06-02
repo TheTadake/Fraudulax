@@ -62,15 +62,25 @@ public class Epreuve {
 
     @Override
     public String toString() {
-        return "Epreuve : " +
-                "codeECUE='" + codeECUE + '\n' +
-                "datePassage=" + datePassage + '\n' +
-                "heurePassage=" + heurePassage +'\n' +
-                "modalite=" + modalite +'\n' +
-                "duree=" + duree +'\n' +
-                "professeur=" + professeur.getNom() + " " + professeur.getPrenom() +'\n' +
+        String surveillantList = "";
+        if (surveillants != null) {
+            for (int i = 0; i < surveillants.length; i++) {
+                surveillantList += surveillants[i].getNom() + " " + surveillants[i].getPrenom() + "\n";
 
-                '}';
+            }
+        }else{
+            surveillantList = "Aucun surveillant assigné.\n";
+        }
+        return "Epreuve : " +
+                "codeECUE : " + codeECUE + '\n' +
+                "datePassage : " + datePassage + '\n' +
+                "heurePassage : " + heurePassage +'\n' +
+                "modalite : " + modalite +'\n' +
+                "duree : " + duree +'\n' +
+                "professeur : " + professeur.getNom() + " " + professeur.getPrenom() +'\n' +
+                "surveillants : " +surveillantList;
+
+
     }
 
     @Override

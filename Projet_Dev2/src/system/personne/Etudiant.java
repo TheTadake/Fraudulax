@@ -10,4 +10,6 @@ public class Etudiant extends Personne{
 
     public Cursus getCursus() {return cursus;}
     public void setCursus(Cursus cursus) {this.cursus = cursus;}
+
+
 }

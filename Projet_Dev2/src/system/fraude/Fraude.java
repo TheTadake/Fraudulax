@@ -40,9 +40,9 @@ public abstract class Fraude {
     @Override
     public String toString() {
         return "Fraude  :" +"\n"+
-                "date=" + date +"\n"+
-                "contenu='" + contenu +"\n"+
-                "description='" + description+"\n";
+                "date : " + date +"\n"+
+                "contenu : " + contenu +"\n"+
+                "description : " + description+"\n";
 
     }
 }
