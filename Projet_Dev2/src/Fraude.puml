@@ -11,6 +11,11 @@ package "system.epreuve" {
         + getDuree(): int
         + getDatePassage(): LocalDate
         + getHeurePassage(): String
+        + setCodeECUE(codeECUE: String): void
+        + setDuree(duree: int): void
+        + setDatePassage(datePassage: LocalDate): void
+        + setHeurePassage(heurePassage: String): void
+
     }
 
 
@@ -33,6 +38,9 @@ package "system.personne" {
         + getNum(): String
         + getNom(): String
         + getPrenom(): String
+        + setNum(num: String): void
+        + setNom(nom: String): void
+        + setPrenom(prenom: String): void
 
     }
 
