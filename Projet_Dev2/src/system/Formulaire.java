@@ -27,5 +27,12 @@ public class Formulaire {
     public void rechercheFiltre(){
         
     }
+    public String statisques(){
+       return "";
+    }
+    public String graphique(){
+        return "";
+    }
+
 
 }

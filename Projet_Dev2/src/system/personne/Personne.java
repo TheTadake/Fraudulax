@@ -34,6 +34,6 @@ public abstract class Personne {
         return Objects.hash(num, nom, prenom);
     }
 
-    
+
 }
 
