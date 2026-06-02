@@ -27,7 +27,21 @@ public class Formulaire {
     public void rechercheFiltre(){
         
     }
-    public String statisques(){
+    public String statisques( Formulaire[] formulaire){
+        int nbFormulaire = formulaire.length;
+        int nbEtudiantUnique = 0;
+        int nbFraudes = 0;
+        int moyFraudeByFormulaire = 0;
+        int ecartType = 0;
+
+        for (int i = 0; i < nbFormulaire; i++){
+            // Calcul du nombre total de fraudes
+            nbFraudes += formulaire[i].getFraudes().length;
+
+           
+        }
+        // Calcul de la moyenne de fraudes par formulaire
+        moyFraudeByFormulaire = nbFraudes / nbFormulaire;
        return "";
     }
     public String graphique(){
