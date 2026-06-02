@@ -15,14 +15,14 @@ public abstract class Fraude {
         this.description = description;
     }
 
-    public LocalDate getDate() {return date;}
-    public void setDate(LocalDate date) {this.date = date;}
+    protected LocalDate getDate() {return date;}
+    protected void setDate(LocalDate date) {this.date = date;}
 
-    public String getContenu() {return contenu;}
-    public void setContenu(String contenu) {this.contenu = contenu;}
+    protected String getContenu() {return contenu;}
+    protected void setContenu(String contenu) {this.contenu = contenu;}
 
-    public String getDescription() {return description;}
-    public void setDescription(String description) {this.description = description;}
+    protected String getDescription() {return description;}
+    protected void setDescription(String description) {this.description = description;}
 
 
     @Override
