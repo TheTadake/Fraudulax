@@ -1,5 +1,8 @@
 package system.epreuve;
 
+import system.personne.Professeur;
+import system.personne.Surveillant;
+
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
@@ -10,13 +13,17 @@ public class Epreuve {
     private LocalTime heurePassage;
     private Modalite modalite;
     private int duree; // en minutes
+    private Professeur professeur;
+    private Surveillant[] surveillants;
 
-    public Epreuve(String codeECUE, LocalDate datePassage, LocalTime heurePassage, Modalite modalite, int duree) {
+    public Epreuve(String codeECUE, LocalDate datePassage, LocalTime heurePassage, Modalite modalite, int duree, Professeur professeur, Surveillant[] surveillants) {
         this.codeECUE = codeECUE;
         this.datePassage = datePassage;
         this.heurePassage = heurePassage;
         this.modalite = modalite;
         this.duree = duree;
+        this.professeur = professeur;
+        this.surveillants = surveillants;
     }
     public String getCodeECUE() { return  codeECUE; }
     public void  setCodeECUE(String codeECUE) { this.codeECUE = codeECUE; }
@@ -34,14 +41,35 @@ public class Epreuve {
     public int getDuree() {return duree;}
     public void setDuree(int duree) {this.duree = duree;}
 
+    public Professeur getProfesseur() {return professeur;}
+    public void setProfesseur(Professeur professeur) {this.professeur = professeur;}
+
+    public Surveillant[] getSurveillants() {return surveillants;}
+    public void setSurveillants(Surveillant[] surveillants) {this.surveillants = surveillants;}
+
+    public void addSurveillant (Surveillant newSurveillant) {
+        if (surveillants == null) {
+            surveillants = new Surveillant[]{newSurveillant};
+        } else {
+            Surveillant[] updatedSurveillants = new Surveillant[surveillants.length + 1];
+            for (int i = 0; i < surveillants.length; i++) {
+                updatedSurveillants[i] = surveillants[i];
+            }
+            updatedSurveillants[surveillants.length] = newSurveillant;
+            surveillants = updatedSurveillants;
+        }
+    }
+
     @Override
     public String toString() {
-        return "Epreuve{" +
-                "codeECUE='" + codeECUE + '\'' +
-                ", datePassage=" + datePassage +
-                ", heurePassage=" + heurePassage +
-                ", modalite=" + modalite +
-                ", duree=" + duree +
+        return "Epreuve : " +
+                "codeECUE='" + codeECUE + '\n' +
+                "datePassage=" + datePassage + '\n' +
+                "heurePassage=" + heurePassage +'\n' +
+                "modalite=" + modalite +'\n' +
+                "duree=" + duree +'\n' +
+                "professeur=" + professeur.getNom() + " " + professeur.getPrenom() +'\n' +
+
                 '}';
     }
 

@@ -11,13 +11,13 @@ public abstract class Personne {
         this.prenom = prenom;
     }
 
-    protected String getNum() {return num;}
-    protected   void setNum(String num) {this.num = num;}
+    public String getNum() {return num;}
+    public   void setNum(String num) {this.num = num;}
 
-    protected String getNom() {return nom;}
-    protected void setNom(String nom) {this.nom = nom;}
+    public String getNom() {return nom;}
+    public void setNom(String nom) {this.nom = nom;}
 
-    protected String getPrenom() {return prenom;}
-    protected void setPrenom(String prenom) {this.prenom = prenom;}
+    public String getPrenom() {return prenom;}
+    public void setPrenom(String prenom) {this.prenom = prenom;}
 }
 

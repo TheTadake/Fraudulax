@@ -15,6 +15,7 @@ package "system.epreuve" {
         + setDuree(duree: int): void
         + setDatePassage(datePassage: LocalDate): void
         + setHeurePassage(heurePassage: String): void
+        + addSurveillant(surveillant: Surveillant): void
 
     }
 
