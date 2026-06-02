@@ -68,6 +68,7 @@ package "system.Fraude"{
         - contenu: String
         - description: String
 
+
         + getDate(): LocalDate
         + getContenu(): String
         + getDescription(): String
@@ -96,7 +97,8 @@ package "system.Fraude"{
     }
 }
 package "system" {
-    class Formualaire {
+    class Formulaire {
+
          + rechercheFiltre(): String
          + statistiques(): String
          + graphe(): String
@@ -111,8 +113,8 @@ Modalite "1"--"1..*" Epreuve
 Professeur "1"--"1" Epreuve
 Surveillant "1..*"--"1" Epreuve
 Etudiant "1..*"--"1" Cursus
-"system.Fraude.Fraude" "1..*"--"1" Formualaire
-Epreuve "1..*"--"1" Formualaire
-Etudiant "0..*"--"1" Formualaire
+"system.Fraude.Fraude" "1..*"--"1" Formulaire
+Epreuve "1..*"--"1" Formulaire
+Etudiant "0..*"--"1" Formulaire
 
 @enduml
