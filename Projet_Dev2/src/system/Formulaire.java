@@ -109,7 +109,7 @@ public class Formulaire {
      * Deux étudiants sont reliés s'ils ont fraudé lors de la même épreuve :
      * même codeECUE + même datePassage
      */
-    public String graphique() {
+    public String graphe() {
         int n = this.etudiants.length; // Avec n le nombre d'entrées dans le formulaire
         Map<Etudiant, Set<Etudiant>> relation = new LinkedHashMap<>(); // Conserver l'ordre d'insertion à l'affichage
 
