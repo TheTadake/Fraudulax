@@ -3,7 +3,7 @@ package system.fraude;
 import java.time.LocalDate;
 import java.util.Objects;
 
-public abstract class Fraude {
+public class Fraude {
     private LocalDate date;
     private String contenu;
     private String description;
