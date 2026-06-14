@@ -25,9 +25,10 @@ public class Formulaire {
     public void setEpreuves(Epreuve[] epreuves) { this.epreuves = epreuves;}
 
     public void rechercheFiltre(){
-        
+
     }
-    public String statisques( Formulaire[] formulaire){
+
+    public String statistiques( Formulaire[] formulaire){
         int nbFormulaire = formulaire.length;
         int nbEtudiantUnique = 0;
         int nbFraudes = 0;
