@@ -36,9 +36,9 @@ public class TestEpreuve {
         Surveillant newSurveillant = new Surveillant("3", "Patrick", "Dupont");
         epreuve.addSurveillant(newSurveillant);
         Surveillant[] attendusSurveillants = new Surveillant[]{
-                new Surveillant("1", "Pierre", "Douglas"),
-                new Surveillant("2", "Pimprenelle", "Pins"),
-                new Surveillant("3", "Paul", "Antoine")
+                new Surveillant("1", "Jean", "Mark"),
+                new Surveillant("2", "Marie", "Anne"),
+                new Surveillant("3", "Patrick", "Dupont")
         };
         assertArrayEquals(attendusSurveillants, epreuve.getSurveillants(), "Les surveillants doivent être égal aux attendusSurveillants");
     }

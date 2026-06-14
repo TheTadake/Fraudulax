@@ -28,8 +28,8 @@ public class Formulaire {
      * @param epreuves
      */
     public Formulaire(Fraude[] fraudes, Etudiant[] etudiants, Epreuve[] epreuves) {
-        if (fraudes.length != etudiants.length || fraudes.length != epreuves.length) {
-            throw new IllegalArgumentException("Les tableaux fraudes, etudiants et epreuves doivent avoir la même taille.");
+        if (fraudes == null || etudiants == null || epreuves == null) {
+            throw new IllegalArgumentException("Les tableaux fraudes, etudiants et epreuves ne peuvent pas être null.");
         }
         this.fraudes = fraudes;
         this.etudiants = etudiants;
@@ -219,7 +219,7 @@ public class Formulaire {
         if (relation.isEmpty()) return "Aucune relation de plagiat détectée.\n";
 
         StringBuilder sb = new StringBuilder();
-        sb.append("=== Graphe de plagiat ===\n\n");
+        sb.append("Graphe de plagiat\n\n");
 
         for (Map.Entry<Etudiant, Set<Etudiant>> entry : relation.entrySet()) {
             Etudiant e = entry.getKey(); // Affichage du noeud principal
