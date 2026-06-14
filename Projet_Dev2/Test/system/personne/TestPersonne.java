@@ -24,6 +24,30 @@ public class TestPersonne {
         assertEquals(Cursus.E4, etudiant.getCursus(), "Le cursus de l'étudiant est incorrect, il doit valoir : E4");
     }
 
+    @Test
+    public void testSetNumEtudiant() {
+        etudiant.setNum("999");
+        assertEquals("999", etudiant.getNum());
+    }
+
+    @Test
+    public void testSetNomEtudiant() {
+        etudiant.setNom("Martin");
+        assertEquals("Martin", etudiant.getNom());
+    }
+
+    @Test
+    public void testSetPrenomEtudiant() {
+        etudiant.setPrenom("Paul");
+        assertEquals("Paul", etudiant.getPrenom());
+    }
+
+    @Test
+    public void testSetCursus() {
+        etudiant.setCursus(Cursus.E1);
+        assertEquals(Cursus.E1, etudiant.getCursus());
+    }
+
     // Test constructeur Professeur
     private Professeur professeur;
 
@@ -39,6 +63,24 @@ public class TestPersonne {
         assertEquals("Bob", professeur.getPrenom(), "Le prénom du professeur est incorrect, il doit valoir : Bob");
     }
 
+    @Test
+    public void testSetNomProfesseur() {
+        professeur.setNom("Durand");
+        assertEquals("Durand", professeur.getNom());
+    }
+
+    @Test
+    public void testSetPrenomProfesseur() {
+        professeur.setPrenom("Jean");
+        assertEquals("Jean", professeur.getPrenom());
+    }
+
+    @Test
+    public void testSetNumProfesseur() {
+        professeur.setNum("999");
+        assertEquals("999", professeur.getNum());
+    }
+
     // Test constructeur Surveillant
     private Surveillant surveillant;
 
@@ -52,5 +94,23 @@ public class TestPersonne {
         assertEquals("37", surveillant.getNum(), "Le numéro du surveillant est incorrect, il doit valoir : 37");
         assertEquals("Lopez", surveillant.getNom(), "Le nom du surveillant est incorrect, il doit valoir : Lopez");
         assertEquals("Louis", surveillant.getPrenom(), "Le prénom du surveillant est incorrect, il doit valoir : Louis");
+    }
+
+    @Test
+    public void testSetNomSurveillant() {
+        surveillant.setNom("Bernard");
+        assertEquals("Bernard", surveillant.getNom());
+    }
+
+    @Test
+    public void testSetPrenomSurveillant() {
+        surveillant.setPrenom("Luc");
+        assertEquals("Luc", surveillant.getPrenom());
+    }
+
+    @Test
+    public void testSetNumSurveillant() {
+        surveillant.setNum("555");
+        assertEquals("555", surveillant.getNum());
     }
 }

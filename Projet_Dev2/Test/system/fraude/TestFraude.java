@@ -21,6 +21,27 @@ public class TestFraude {
         assertEquals("Un étudiant a été surpris en train de copier la feuille de réponses d'un autre étudiant pendant une épreuve.", fraude.getDescription(), "La description de la fraude est incorrecte, elle doit valoir 'Un étudiant a été surpris en train de copier la feuille de réponses d'un autre étudiant pendant une épreuve.'");
     }
 
+    @Test
+    public void testSetDate() {
+        LocalDate nouvelleDate = LocalDate.of(2027, 1, 1);
+        fraude.setDate(nouvelleDate);
+        assertEquals(nouvelleDate, fraude.getDate());
+    }
+
+    @Test
+    public void testSetContenu() {
+        String contenu = "Nouveau contenu";
+        fraude.setContenu(contenu);
+        assertEquals(contenu, fraude.getContenu());
+    }
+
+    @Test
+    public void testSetDescription() {
+        String description = "Nouvelle description";
+        fraude.setDescription(description);
+        assertEquals(description, fraude.getDescription());
+    }
+
     // Test constructeur FraudeCalculatrice
     private FraudeCalculatrice fraudeCalculatrice;
 
@@ -65,6 +86,12 @@ public class TestFraude {
         assertEquals("Utilisation d'une intelligence artificielle générative connectée pour tricher", fraudeIAGConnecte.getContenu(), "Le contenu de la fraude est incorrect, il doit valoir 'Utilisation d'une intelligence artificielle générative connectée pour tricher'");
         assertEquals("Un étudiant a été surpris en train d'utiliser une intelligence artificielle générative connectée pour tricher pendant une épreuve.", fraudeIAGConnecte.getDescription(), "La description de la fraude est incorrecte, elle doit valoir 'Un étudiant a été surpris en train d'utiliser une intelligence artificielle générative connectée pour tricher pendant une épreuve.'");
         assertEquals("blabla", fraudeIAGConnecte.getAdresseIP(), "L'adresse IP de la fraude est incorrecte, elle doit valoir 'blabla'");
+    }
+
+    @Test
+    public void testSetAdresseIP() {
+        fraudeIAGConnecte.setAdresseIP("192.168.1.1");
+        assertEquals("192.168.1.1", fraudeIAGConnecte.getAdresseIP());
     }
 
     // Test constructeur FraudePapier

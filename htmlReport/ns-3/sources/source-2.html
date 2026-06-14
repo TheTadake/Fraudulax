@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > FraudeCalculatrice</title>
+  <title>Coverage Report > Modalite</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">system.fraude</a>
+    <a href="../index.html">system.epreuve</a>
 </div>
 
-<h1>Coverage Summary for Class: FraudeCalculatrice (system.fraude)</h1>
+<h1>Coverage Summary for Class: Modalite (system.epreuve)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,29 +41,29 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">FraudeCalculatrice</td>
+  <td class="name">Modalite</td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (2/2)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    100%
   </span>
   <span class="absValue">
-    (0/1)
+    (7/7)
   </span>
 </td>
 </tr>
@@ -75,25 +75,15 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package system.fraude;
+<code class="sourceCode" id="sourceCode">&nbsp;package system.epreuve;
 &nbsp;
-&nbsp;import java.time.LocalDate;
-&nbsp;
-&nbsp;/**
-&nbsp; * @brief  Classe  représentant une fraude d&#39;usage à la calculatrice.
-&nbsp; */
-&nbsp;public class FraudeCalculatrice extends Fraude {
-&nbsp;    public static final String type = &quot;CALCULATRICE&quot;;
-&nbsp;
-&nbsp;    /**
-&nbsp;     * @brief Constructeur de la classe FraudeCalculatrice.
-&nbsp;     * @param date
-&nbsp;     * @param contenu
-&nbsp;     * @param descriptionTextuelle
-&nbsp;     */
-&nbsp;    public FraudeCalculatrice(LocalDate date, String contenu, String descriptionTextuelle){
-<b class="nc">&nbsp;        super(date,contenu,descriptionTextuelle);</b>
-&nbsp;    }
+<b class="fc">&nbsp;public enum Modalite {</b>
+<b class="fc">&nbsp;    Oral,</b>
+<b class="fc">&nbsp;    Ecrit,</b>
+<b class="fc">&nbsp;    QCM,</b>
+<b class="fc">&nbsp;    Ordi,</b>
+<b class="fc">&nbsp;    Projet,</b>
+<b class="fc">&nbsp;    TP</b>
 &nbsp;}
 </code>
 </pre>
@@ -118,7 +108,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2026-06-14 23:44</div>
+    <div style="float:right;">generated on 2026-06-15 00:16</div>
 </div>
 </body>
 </html>

@@ -80,6 +80,16 @@ public class TestFormulaire {
     }
 
     @Test
+    public void testRechercheNomEtPrenom() {
+        Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
+        String resultat = formulaire.rechercheFiltre("Maréchal", "Jean", null);
+        assertTrue(resultat.contains("Maréchal"), "Le résultat doit contenir le nom de l'étudiant recherché");
+        assertTrue(resultat.contains("Jean"), "Le résultat doit contenir le prénom de l'étudiant recherché");
+        assertFalse(resultat.contains("Durand"), "Le résultat ne doit pas contenir le nom de l'étudiant non recherché");
+        assertFalse(resultat.contains("Sulyvan"), "Le résultat ne doit pas contenir le prénom de l'étudiant non recherché");
+    }
+
+    @Test
     public void testRechercheParNumero() {
         Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
         String resultat = formulaire.rechercheFiltre(null, null, "12345");
@@ -104,6 +114,16 @@ public class TestFormulaire {
         String statistiques = Formulaire.statistiques(liste);
         assertTrue(statistiques.contains("Nombre total de fraudes : 4"), "Le résultat doit contenir le nombre total de fraudes");
         assertTrue(statistiques.contains("Nombre d'étudiants uniques : 2"), "Le résultat doit contenir le nombre total d'étudiants");
+    }
+
+    @Test
+    public void testStatistiquesUnSeulFormulaire() {
+        Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
+        Formulaire[] liste = {formulaire};
+        String resultat = formulaire.statistiques(liste);
+        assertTrue(resultat.contains("Comptage des formulaires : 1"), "Le résultat doit contenir le nombre de formulaires");
+        assertTrue(resultat.contains("Nombre total de fraudes : 2"), "Le résultat doit contenir le nombre total de fraudes");
+        assertTrue(resultat.contains("Nombre d'étudiants uniques : 2"), "Le résultat doit contenir le nombre total d'étudiants");
     }
 
     // Test graphe
@@ -137,5 +157,29 @@ public class TestFormulaire {
         assertArrayEquals(nouvellesFraudes, formulaire.getFraudes(),"Les fraudes doivent être mises à jour avec les nouvelles fraudes");
         assertNotNull(formulaire.getModificationDate(),"Le formulaire doit avoir une date de modification après la mise à jour des fraudes");
         assertNotNull(formulaire.getModificationTime(),"Le formulaire doit avoir une heure de modification après la mise à jour des fraudes");
+    }
+
+    @Test
+    public void testSetEtudiants() {
+        Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
+        Etudiant[] nouveauxEtudiants = {
+                new Etudiant("999", "Test", "User", Cursus.E1)
+        };
+        formulaire.setEtudiants(nouveauxEtudiants);
+        assertArrayEquals(nouveauxEtudiants, formulaire.getEtudiants());
+        assertNotNull(formulaire.getModificationDate());
+        assertNotNull(formulaire.getModificationTime());
+    }
+
+    @Test
+    public void testSetEpreuves() {
+        Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
+        Epreuve[] nouvellesEpreuves = {
+                epreuves[0]
+        };
+        formulaire.setEpreuves(nouvellesEpreuves);
+        assertArrayEquals(nouvellesEpreuves, formulaire.getEpreuves());
+        assertNotNull(formulaire.getModificationDate());
+        assertNotNull(formulaire.getModificationTime());
     }
 }

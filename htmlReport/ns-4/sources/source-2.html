@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Etudiant</title>
+  <title>Coverage Report > FraudeCalculatrice</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">system.personne</a>
+    <a href="../index.html">system.fraude</a>
 </div>
 
-<h1>Coverage Summary for Class: Etudiant (system.personne)</h1>
+<h1>Coverage Summary for Class: FraudeCalculatrice (system.fraude)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Etudiant</td>
+  <td class="name">FraudeCalculatrice</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -52,18 +52,18 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    66,7%
+    100%
   </span>
   <span class="absValue">
-    (2/3)
+    (1/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    75%
+    100%
   </span>
   <span class="absValue">
-    (3/4)
+    (1/1)
   </span>
 </td>
 </tr>
@@ -75,30 +75,25 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package system.personne;
+<code class="sourceCode" id="sourceCode">&nbsp;package system.fraude;
+&nbsp;
+&nbsp;import java.time.LocalDate;
 &nbsp;
 &nbsp;/**
-&nbsp; * @brief Classe représentant un étudiant héritant de la class Personne.
+&nbsp; * @brief  Classe  représentant une fraude d&#39;usage à la calculatrice.
 &nbsp; */
-&nbsp;public class Etudiant extends Personne{
-&nbsp;    private Cursus cursus;
+&nbsp;public class FraudeCalculatrice extends Fraude {
+&nbsp;    public static final String type = &quot;CALCULATRICE&quot;;
 &nbsp;
 &nbsp;    /**
-&nbsp;     * @brief Constructeur de la classe Etudiant
-&nbsp;     * @param num
-&nbsp;     * @param nom
-&nbsp;     * @param prenom
-&nbsp;     * @param cursus
+&nbsp;     * @brief Constructeur de la classe FraudeCalculatrice.
+&nbsp;     * @param date
+&nbsp;     * @param contenu
+&nbsp;     * @param descriptionTextuelle
 &nbsp;     */
-&nbsp;    public Etudiant(String num, String nom, String prenom, Cursus cursus) {
-<b class="fc">&nbsp;        super(num, nom, prenom);</b>
-<b class="fc">&nbsp;        this.cursus = cursus;</b>
+&nbsp;    public FraudeCalculatrice(LocalDate date, String contenu, String descriptionTextuelle){
+<b class="fc">&nbsp;        super(date,contenu,descriptionTextuelle);</b>
 &nbsp;    }
-&nbsp;
-<b class="fc">&nbsp;    public Cursus getCursus() {return cursus;}</b>
-<b class="nc">&nbsp;    public void setCursus(Cursus cursus) {this.cursus = cursus;}</b>
-&nbsp;
-&nbsp;
 &nbsp;}
 </code>
 </pre>
@@ -123,7 +118,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2026-06-14 23:44</div>
+    <div style="float:right;">generated on 2026-06-15 00:16</div>
 </div>
 </body>
 </html>

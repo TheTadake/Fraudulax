@@ -3,6 +3,10 @@ package system.epreuve;
 import system.personne.Surveillant;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
+import java.time.LocalTime;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestEpreuve {
@@ -41,5 +45,41 @@ public class TestEpreuve {
                 new Surveillant("3", "Patrick", "Dupont")
         };
         assertArrayEquals(attendusSurveillants, epreuve.getSurveillants(), "Les surveillants doivent être égal aux attendusSurveillants");
+    }
+
+    // Test codeECUE
+    @Test
+    public void testSetCodeECUE() {
+        epreuve.setCodeECUE("ECUE999");
+        assertEquals("ECUE999", epreuve.getCodeECUE());
+    }
+
+    // Test datePassage
+    public void testSetDatePassage() {
+        LocalDate date = LocalDate.of(2026, 6, 1);
+        epreuve.setDatePassage(date);
+        assertEquals(date, epreuve.getDatePassage());
+    }
+
+    // Test heurePassage
+    @Test
+    public void testSetHeurePassage() {
+        LocalTime heure = LocalTime.of(14, 30);
+        epreuve.setHeurePassage(heure);
+        assertEquals(heure, epreuve.getHeurePassage());
+    }
+
+    // Test modalite
+    @Test
+    public void testSetModalite() {
+        epreuve.setModalite(Modalite.TP);
+        assertEquals(Modalite.TP, epreuve.getModalite());
+    }
+
+    // Test duree
+    @Test
+    public void testSetDuree() {
+        epreuve.setDuree(240);
+        assertEquals(240, epreuve.getDuree());
     }
 }

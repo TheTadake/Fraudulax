@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Modalite</title>
+  <title>Coverage Report > Menu</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">system.epreuve</a>
+    <a href="../index.html">system</a>
 </div>
 
-<h1>Coverage Summary for Class: Modalite (system.epreuve)</h1>
+<h1>Coverage Summary for Class: Menu (system)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -37,33 +37,45 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 <th class="coverageStat 
 ">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
   Line, %
 </th>
 </tr>
 <tr>
-  <td class="name">Modalite</td>
+  <td class="name">Menu</td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (1/1)
+    (0/1)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (2/2)
+    (0/17)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    100%
+    0%
   </span>
   <span class="absValue">
-    (7/7)
+    (0/139)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/318)
   </span>
 </td>
 </tr>
@@ -75,15 +87,591 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package system.epreuve;
+<code class="sourceCode" id="sourceCode">&nbsp;package system;
 &nbsp;
-<b class="fc">&nbsp;public enum Modalite {</b>
-<b class="fc">&nbsp;    Oral,</b>
-<b class="fc">&nbsp;    Ecrit,</b>
-<b class="fc">&nbsp;    QCM,</b>
-<b class="fc">&nbsp;    Ordi,</b>
-<b class="fc">&nbsp;    Projet,</b>
-<b class="fc">&nbsp;    TP</b>
+&nbsp;import system.epreuve.Epreuve;
+&nbsp;import system.epreuve.Modalite;
+&nbsp;import system.fraude.*;
+&nbsp;import system.personne.Cursus;
+&nbsp;import system.personne.Etudiant;
+&nbsp;import system.personne.Professeur;
+&nbsp;import system.personne.Surveillant;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.time.format.DateTimeFormatter;
+&nbsp;import java.time.format.DateTimeParseException;
+&nbsp;import java.util.Locale;
+&nbsp;import java.util.Scanner;
+&nbsp;
+&nbsp;public class Menu {
+&nbsp;
+&nbsp;    private Formulaire[] formulaires;
+&nbsp;    private Epreuve[] epreuves ;
+&nbsp;    private Scanner scanner;
+&nbsp;    private Etudiant[] etudiants;
+&nbsp;    private int nbFormulaires;
+&nbsp;    private int nbEpreuves;
+<b class="nc">&nbsp;    private DateTimeFormatter dateFormatterFR = DateTimeFormatter.ofPattern(&quot;dd/MM/yyyy&quot;, Locale.FRANCE);</b>
+<b class="nc">&nbsp;    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern(&quot;HH:mm:ss&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;    public Menu(Epreuve[] epreuves,Etudiant[] etudiants) {</b>
+<b class="nc">&nbsp;        this.epreuves = epreuves ;</b>
+<b class="nc">&nbsp;        this.formulaires = new Formulaire[100];</b>
+<b class="nc">&nbsp;        this.nbFormulaires = 0;</b>
+<b class="nc">&nbsp;        this.nbEpreuves = epreuves.length;</b>
+<b class="nc">&nbsp;        this.etudiants = etudiants;</b>
+<b class="nc">&nbsp;        this.scanner = new Scanner(System.in);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    // Getters et setters pour l&#39;accès aux formulaires
+&nbsp;    public Formulaire[] getFormulaires() {
+<b class="nc">&nbsp;        return formulaires;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setNbFormulaires(int nbFormulaires) {
+<b class="nc">&nbsp;        this.nbFormulaires = nbFormulaires;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public int getNbFormulaires() {
+<b class="nc">&nbsp;        return nbFormulaires;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void afficherMenuPrincipal() {
+<b class="nc">&nbsp;        boolean continuer = true;</b>
+<b class="nc">&nbsp;        while (continuer) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\n===== MENU PRINCIPAL =====&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;1. Créer une épreuve&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;2. Ajouter un formulaire&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;3. Retirer un formulaire&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;4. Afficher les formulaires&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;5. Afficher les épreuves&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;6. Afficher les statistiques&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;7. Recherche filtrée d&#39;étudiants&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;8. Afficher le graphe de plagiat&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;9. Quitter&quot;);</b>
+<b class="nc">&nbsp;            System.out.print(&quot;Sélectionnez une action (1-9) : &quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;            String choix = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;            switch (choix) {</b>
+&nbsp;                case &quot;1&quot;:
+<b class="nc">&nbsp;                    creerEpreuve();</b>
+&nbsp;                    break;
+&nbsp;                case &quot;2&quot;:
+<b class="nc">&nbsp;                    ajouterFormulaire();</b>
+&nbsp;                    break;
+&nbsp;                case &quot;3&quot;:
+<b class="nc">&nbsp;                    retirerFormulaire();</b>
+&nbsp;                    break;
+&nbsp;                case &quot;4&quot;:
+<b class="nc">&nbsp;                    afficherFormulaires();</b>
+&nbsp;                    break;
+&nbsp;                case &quot;5&quot;:
+<b class="nc">&nbsp;                    afficherEpreuves();</b>
+&nbsp;                    break;
+&nbsp;                case &quot;6&quot;:
+<b class="nc">&nbsp;                    afficherStatistiques();</b>
+&nbsp;                    break;
+&nbsp;                case &quot;7&quot;:
+<b class="nc">&nbsp;                    rechercheFiltre();</b>
+&nbsp;                    break;
+&nbsp;                case &quot;8&quot;:
+<b class="nc">&nbsp;                    afficherGraphe();</b>
+&nbsp;                    break;
+&nbsp;                case &quot;9&quot;:
+<b class="nc">&nbsp;                    System.out.println(&quot;Au revoir!&quot;);</b>
+<b class="nc">&nbsp;                    continuer = false;</b>
+&nbsp;                    break;
+&nbsp;                default:
+<b class="nc">&nbsp;                    System.out.println(&quot;Erreur : veuillez saisir un numéro entre 1 et 9.&quot;);</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        scanner.close();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void creerEpreuve() {
+<b class="nc">&nbsp;        System.out.println(&quot;\n===== CRÉER UNE ÉPREUVE =====&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Code ECUE : &quot;);</b>
+<b class="nc">&nbsp;        String codeECUE = scanner.nextLine().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Date de passage (jj/mm/aaaa) : &quot;);</b>
+<b class="nc">&nbsp;        LocalDate datePassage = lireDate();</b>
+<b class="nc">&nbsp;        if (datePassage == null) return;</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Heure de passage (HH:MM) : &quot;);</b>
+<b class="nc">&nbsp;        LocalTime heurePassage = lireHeure();</b>
+<b class="nc">&nbsp;        if (heurePassage == null) return;</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;Modalité (Oral/Ecrit/QCM/Ordi/Projet/TP) : &quot;);</b>
+<b class="nc">&nbsp;        Modalite modalite = lireModalite();</b>
+<b class="nc">&nbsp;        if (modalite == null) return;</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Durée en minutes : &quot;);</b>
+<b class="nc">&nbsp;        int duree = lireEntier(1, 9999);</b>
+<b class="nc">&nbsp;        if (duree == -1) return;</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Nom du professeur : &quot;);</b>
+<b class="nc">&nbsp;        String nomProf = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;        System.out.print(&quot;Prénom du professeur : &quot;);</b>
+<b class="nc">&nbsp;        String prenomProf = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;        System.out.print(&quot;Numéro du professeur : &quot;);</b>
+<b class="nc">&nbsp;        String numProf = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;        Professeur professeur = new Professeur(numProf, nomProf, prenomProf);</b>
+&nbsp;
+<b class="nc">&nbsp;        Epreuve epreuve = new Epreuve(codeECUE, datePassage, heurePassage, modalite, duree, professeur, null);</b>
+&nbsp;
+<b class="nc">&nbsp;        boolean ajouterSurveillants = true;</b>
+<b class="nc">&nbsp;        while (ajouterSurveillants) {</b>
+<b class="nc">&nbsp;            System.out.print(&quot;Ajouter un surveillant ? (oui/non) : &quot;);</b>
+<b class="nc">&nbsp;            String reponse = scanner.nextLine().trim().toLowerCase();</b>
+<b class="nc">&nbsp;            if (reponse.equals(&quot;oui&quot;)) {</b>
+<b class="nc">&nbsp;                System.out.print(&quot;Nom du surveillant : &quot;);</b>
+<b class="nc">&nbsp;                String nomSurv = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;                System.out.print(&quot;Prénom du surveillant : &quot;);</b>
+<b class="nc">&nbsp;                String prenomSurv = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;                System.out.print(&quot;Numéro du surveillant : &quot;);</b>
+<b class="nc">&nbsp;                String numSurv = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;                Surveillant surveillant = new Surveillant(numSurv, nomSurv, prenomSurv);</b>
+<b class="nc">&nbsp;                epreuve.addSurveillant(surveillant);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                ajouterSurveillants = false;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        epreuves[nbEpreuves] = epreuve;</b>
+<b class="nc">&nbsp;        nbEpreuves++;</b>
+<b class="nc">&nbsp;        System.out.println(&quot;✓ Épreuve créée avec succès!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void ajouterFormulaire() {
+<b class="nc">&nbsp;        System.out.println(&quot;\n===== AJOUTER UN FORMULAIRE =====&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (nbEpreuves == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : aucune épreuve disponible. Créez une épreuve d&#39;abord.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+&nbsp;        // Étape 1 : Sélection de l&#39;épreuve
+<b class="nc">&nbsp;        System.out.println(&quot;\nÉpreuves disponibles :&quot;);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nbEpreuves; i++) {</b>
+<b class="nc">&nbsp;            if (epreuves[i] != null) {</b>
+<b class="nc">&nbsp;                System.out.println((i + 1) + &quot;. &quot; + epreuves[i].getCodeECUE() + &quot; - &quot; + epreuves[i].getDatePassage().format(dateFormatterFR));</b>
+&nbsp;            }
+&nbsp;        }
+<b class="nc">&nbsp;        System.out.print(&quot;Sélectionnez une épreuve (numéro) : &quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        int choixEpreuve = lireEntier(1, nbEpreuves);</b>
+<b class="nc">&nbsp;        if (choixEpreuve == -1) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : choix invalide.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+<b class="nc">&nbsp;        Epreuve epreuveSelectionnee = epreuves[choixEpreuve - 1];</b>
+&nbsp;
+&nbsp;        // Étape 2 : Saisie des étudiants
+<b class="nc">&nbsp;        System.out.println(&quot;\n--- Saisie des étudiants ---&quot;);</b>
+<b class="nc">&nbsp;        Etudiant[] etudiants = new Etudiant[100];</b>
+<b class="nc">&nbsp;        int nbEtudiants = 0;</b>
+<b class="nc">&nbsp;        boolean ajouterEtudiant = true;</b>
+&nbsp;
+<b class="nc">&nbsp;        while (ajouterEtudiant) {</b>
+<b class="nc">&nbsp;            System.out.print(&quot;Nom de l&#39;étudiant (ou &#39;fin&#39; pour terminer) : &quot;);</b>
+<b class="nc">&nbsp;            String nom = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;            if (nom.equalsIgnoreCase(&quot;fin&quot;)) {</b>
+<b class="nc">&nbsp;                ajouterEtudiant = false;</b>
+&nbsp;                break;
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            if (nom.isEmpty()) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Erreur : le nom ne peut pas être vide.&quot;);</b>
+&nbsp;                continue;
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            System.out.print(&quot;Prénom de l&#39;étudiant : &quot;);</b>
+<b class="nc">&nbsp;            String prenom = scanner.nextLine().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;            if (prenom.isEmpty()) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Erreur : le prénom ne peut pas être vide.&quot;);</b>
+&nbsp;                continue;
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            System.out.print(&quot;Numéro apprenant : &quot;);</b>
+<b class="nc">&nbsp;            String numero = scanner.nextLine().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;            if (numero.isEmpty()) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Erreur : le numéro apprenant ne peut pas être vide.&quot;);</b>
+&nbsp;                continue;
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            System.out.print(&quot;Cursus (E1/E2/E3/E4/E5) : &quot;);</b>
+<b class="nc">&nbsp;            String cursusStr = scanner.nextLine().trim().toUpperCase();</b>
+&nbsp;            Cursus cursus;
+&nbsp;            try {
+<b class="nc">&nbsp;                cursus = Cursus.valueOf(cursusStr);</b>
+&nbsp;            } catch (IllegalArgumentException e) {
+<b class="nc">&nbsp;                System.out.println(&quot;Erreur : cursus invalide. Cursus par défaut utilisé (E1).&quot;);</b>
+<b class="nc">&nbsp;                cursus = Cursus.E1;</b>
+&nbsp;            }
+&nbsp;
+<b class="nc">&nbsp;            etudiants[nbEtudiants] = new Etudiant(numero, nom, prenom, cursus);</b>
+<b class="nc">&nbsp;            nbEtudiants++;</b>
+<b class="nc">&nbsp;            System.out.println(&quot;✓ Étudiant ajouté.&quot;);</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        if (nbEtudiants == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : au moins un étudiant doit être saisi.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Etudiant[] etudiantsFinal = new Etudiant[nbEtudiants];</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nbEtudiants; i++) {</b>
+<b class="nc">&nbsp;            etudiantsFinal[i] = etudiants[i];</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Étape 3 : Saisie des fraudes
+<b class="nc">&nbsp;        System.out.println(&quot;\n--- Saisie des fraudes ---&quot;);</b>
+<b class="nc">&nbsp;        Fraude[] fraudes = new Fraude[100];</b>
+<b class="nc">&nbsp;        int nbFraudes = 0;</b>
+<b class="nc">&nbsp;        boolean ajouterFraude = true;</b>
+&nbsp;
+<b class="nc">&nbsp;        while (ajouterFraude) {</b>
+<b class="nc">&nbsp;             System.out.println(&quot;\nTypes de fraude disponibles :&quot;);</b>
+<b class="nc">&nbsp;             System.out.println(&quot;1. Fraude Calculatrice&quot;);</b>
+<b class="nc">&nbsp;             System.out.println(&quot;2. Fraude Papier&quot;);</b>
+<b class="nc">&nbsp;             System.out.println(&quot;3. Fraude IAG&quot;);</b>
+<b class="nc">&nbsp;             System.out.println(&quot;4. Fraude IAG Connectée&quot;);</b>
+<b class="nc">&nbsp;             System.out.println(&quot;5. Fin des fraudes&quot;);</b>
+<b class="nc">&nbsp;             System.out.print(&quot;Sélectionnez un type (1-5) : &quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;             String typeFraude = scanner.nextLine().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;             if (typeFraude.equals(&quot;5&quot;)) {</b>
+<b class="nc">&nbsp;                 ajouterFraude = false;</b>
+&nbsp;                 break;
+&nbsp;             }
+&nbsp;
+<b class="nc">&nbsp;             System.out.print(&quot;Date de la fraude (jj/mm/aaaa) : &quot;);</b>
+<b class="nc">&nbsp;             LocalDate date = lireDate();</b>
+<b class="nc">&nbsp;             if (date == null) continue;</b>
+&nbsp;
+<b class="nc">&nbsp;             System.out.print(&quot;Contenu de la fraude : &quot;);</b>
+<b class="nc">&nbsp;             String contenu = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;             if (contenu.isEmpty()) {</b>
+<b class="nc">&nbsp;                 System.out.println(&quot;Erreur : le contenu ne peut pas être vide.&quot;);</b>
+&nbsp;                 continue;
+&nbsp;             }
+&nbsp;
+<b class="nc">&nbsp;             System.out.print(&quot;Description de la fraude : &quot;);</b>
+<b class="nc">&nbsp;             String description = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;             if (description.isEmpty()) {</b>
+<b class="nc">&nbsp;                 System.out.println(&quot;Erreur : la description ne peut pas être vide.&quot;);</b>
+&nbsp;                 continue;
+&nbsp;             }
+&nbsp;
+&nbsp;             Fraude fraude;
+<b class="nc">&nbsp;             if (typeFraude.equals(&quot;1&quot;)) {</b>
+<b class="nc">&nbsp;                 fraude = new FraudeCalculatrice(date, contenu, description);</b>
+<b class="nc">&nbsp;             } else if (typeFraude.equals(&quot;2&quot;)) {</b>
+<b class="nc">&nbsp;                 fraude = new FraudePapier(date, contenu, description);</b>
+<b class="nc">&nbsp;             } else if (typeFraude.equals(&quot;3&quot;)) {</b>
+<b class="nc">&nbsp;                 fraude = new FraudeIAG(date, contenu, description);</b>
+<b class="nc">&nbsp;             } else if (typeFraude.equals(&quot;4&quot;)) {</b>
+<b class="nc">&nbsp;                 System.out.print(&quot;Adresse IP : &quot;);</b>
+<b class="nc">&nbsp;                 String adresseIP = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;                 if (adresseIP.isEmpty()) {</b>
+<b class="nc">&nbsp;                     System.out.println(&quot;Erreur : l&#39;adresse IP ne peut pas être vide.&quot;);</b>
+&nbsp;                     continue;
+&nbsp;                 }
+<b class="nc">&nbsp;                 fraude = new FraudeIAGConnecte(date, contenu, description, adresseIP);</b>
+&nbsp;             } else {
+<b class="nc">&nbsp;                 System.out.println(&quot;Erreur : type de fraude invalide.&quot;);</b>
+&nbsp;                 continue;
+&nbsp;             }
+&nbsp;
+<b class="nc">&nbsp;             fraudes[nbFraudes] = fraude;</b>
+<b class="nc">&nbsp;             nbFraudes++;</b>
+<b class="nc">&nbsp;             System.out.println(&quot;✓ Fraude ajoutée.&quot;);</b>
+&nbsp;         }
+&nbsp;
+<b class="nc">&nbsp;        Fraude[] fraudesFinal = new Fraude[nbFraudes];</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nbFraudes; i++) {</b>
+<b class="nc">&nbsp;            fraudesFinal[i] = fraudes[i];</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Création du tableau d&#39;épreuves avec la même taille
+<b class="nc">&nbsp;        Epreuve[] epreuvesFinal = new Epreuve[nbFraudes];</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nbFraudes; i++) {</b>
+<b class="nc">&nbsp;            epreuvesFinal[i] = epreuveSelectionnee;</b>
+&nbsp;        }
+&nbsp;
+&nbsp;        // Création du formulaire
+<b class="nc">&nbsp;        Formulaire nouveauFormulaire = new Formulaire(fraudesFinal, etudiantsFinal, epreuvesFinal);</b>
+<b class="nc">&nbsp;        formulaires[nbFormulaires] = nouveauFormulaire;</b>
+<b class="nc">&nbsp;        nbFormulaires++;</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;\n✓ Formulaire ajouté avec succès!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void retirerFormulaire() {
+<b class="nc">&nbsp;        System.out.println(&quot;\n===== RETIRER UN FORMULAIRE =====&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (nbFormulaires == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Aucun formulaire disponible.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        afficherFormulaires();</b>
+<b class="nc">&nbsp;        System.out.print(&quot;Entrez l&#39;identifiant du formulaire à retirer (1-&quot; + nbFormulaires + &quot;) : &quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        int id = lireEntier(1, nbFormulaires);</b>
+<b class="nc">&nbsp;        if (id == -1) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : identifiant invalide.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (int i = id - 1; i &lt; nbFormulaires - 1; i++) {</b>
+<b class="nc">&nbsp;            formulaires[i] = formulaires[i + 1];</b>
+&nbsp;        }
+<b class="nc">&nbsp;        nbFormulaires--;</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;✓ Formulaire retiré avec succès!&quot;);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void afficherFormulaires() {
+<b class="nc">&nbsp;        System.out.println(&quot;\n===== FORMULAIRES DISPONIBLES =====&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (nbFormulaires == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Aucun formulaire disponible.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nbFormulaires; i++) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;\n&quot; + &quot;=&quot;.repeat(60));</b>
+<b class="nc">&nbsp;            System.out.println(&quot;FORMULAIRE &quot; + (i + 1));</b>
+<b class="nc">&nbsp;            System.out.println(&quot;=&quot;.repeat(60));</b>
+&nbsp;
+&nbsp;            // Affichage des dates de création et modification
+<b class="nc">&nbsp;            System.out.println(&quot;\n--- INFORMATIONS DU FORMULAIRE ---&quot;);</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Date de création : &quot; + formulaires[i].getCreationDate().format(dateFormatterFR) + &quot; à &quot; + formulaires[i].getCreationTime().format(timeFormatter));</b>
+<b class="nc">&nbsp;            if (formulaires[i].getModificationDate() != null) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Date de modification : &quot; + formulaires[i].getModificationDate().format(dateFormatterFR) + &quot; à &quot; + formulaires[i].getModificationTime().format(timeFormatter));</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(&quot;Date de modification : Aucune modification&quot;);</b>
+&nbsp;            }
+&nbsp;
+&nbsp;            // Affichage des épreuves
+<b class="nc">&nbsp;            System.out.println(&quot;\n--- INFORMATIONS DE L&#39;ÉPREUVE ---&quot;);</b>
+<b class="nc">&nbsp;            Epreuve[] epreuves = formulaires[i].getEpreuves();</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; epreuves.length; j++) {</b>
+<b class="nc">&nbsp;                if (epreuves[j] != null) {</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Code ECUE : &quot; + epreuves[j].getCodeECUE());</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Date : &quot; + epreuves[j].getDatePassage().format(dateFormatterFR));</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Heure : &quot; + epreuves[j].getHeurePassage().format(timeFormatter));</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Modalité : &quot; + epreuves[j].getModalite());</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Durée : &quot; + epreuves[j].getDuree() + &quot; minutes&quot;);</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;Professeur : &quot; + epreuves[j].getProfesseur().getNom() + &quot; &quot; + epreuves[j].getProfesseur().getPrenom());</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            // Affichage des étudiants
+<b class="nc">&nbsp;            System.out.println(&quot;\n--- ÉTUDIANTS IMPLIQUÉS ---&quot;);</b>
+<b class="nc">&nbsp;            Etudiant[] etudiants = formulaires[i].getEtudiants();</b>
+<b class="nc">&nbsp;            for (int j = 0; j &lt; etudiants.length; j++) {</b>
+<b class="nc">&nbsp;                if (etudiants[j] != null) {</b>
+<b class="nc">&nbsp;                    System.out.println((j + 1) + &quot;. Nom : &quot; + etudiants[j].getNom());</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;   Prénom : &quot; + etudiants[j].getPrenom());</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;   Numéro apprenant : &quot; + etudiants[j].getNum());</b>
+<b class="nc">&nbsp;                    System.out.println(&quot;   Cursus : &quot; + etudiants[j].getCursus());</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;
+&nbsp;            // Affichage des fraudes
+<b class="nc">&nbsp;            System.out.println(&quot;\n--- FRAUDES COMMISES ---&quot;);</b>
+<b class="nc">&nbsp;            Fraude[] fraudes = formulaires[i].getFraudes();</b>
+<b class="nc">&nbsp;            if (fraudes.length == 0) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Aucune fraude enregistrée.&quot;);</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                for (int j = 0; j &lt; fraudes.length; j++) {</b>
+<b class="nc">&nbsp;                    if (fraudes[j] != null) {</b>
+<b class="nc">&nbsp;                        System.out.println((j + 1) + &quot;. Type : &quot; + fraudes[j].getClass().getSimpleName());</b>
+<b class="nc">&nbsp;                        System.out.println(&quot;   Date : &quot; + fraudes[j].getDate().format(dateFormatterFR));</b>
+<b class="nc">&nbsp;                        System.out.println(&quot;   Description : &quot; + fraudes[j].getDescription());</b>
+<b class="nc">&nbsp;                        System.out.println(&quot;   Contenu : &quot; + fraudes[j].getContenu());</b>
+<b class="nc">&nbsp;                        if (fraudes[j].getClass().getSimpleName().equals(&quot;FraudeIAGConnecte&quot;)) {</b>
+<b class="nc">&nbsp;                            System.out.println(&quot;   Adresse IP : &quot; + ((system.fraude.FraudeIAGConnecte)fraudes[j]).getAdresseIP());</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                }
+&nbsp;            }
+<b class="nc">&nbsp;            System.out.println();</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void afficherEpreuves() {
+<b class="nc">&nbsp;        System.out.println(&quot;\n===== ÉPREUVES DISPONIBLES =====&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (nbEpreuves == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Aucune épreuve disponible.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nbEpreuves; i++) {</b>
+<b class="nc">&nbsp;            if (epreuves[i] != null) {</b>
+<b class="nc">&nbsp;                System.out.println(&quot;\nCode ECUE : &quot; + epreuves[i].getCodeECUE());</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Date : &quot; + epreuves[i].getDatePassage().format(dateFormatterFR));</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Heure : &quot; + epreuves[i].getHeurePassage().format(timeFormatter));</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Modalité : &quot; + epreuves[i].getModalite());</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Durée : &quot; + epreuves[i].getDuree() + &quot; minutes&quot;);</b>
+<b class="nc">&nbsp;                System.out.println(&quot;Professeur : &quot; + epreuves[i].getProfesseur().getNom() + &quot; &quot; + epreuves[i].getProfesseur().getPrenom());</b>
+&nbsp;
+<b class="nc">&nbsp;                System.out.println(&quot;Surveillants :&quot;);</b>
+<b class="nc">&nbsp;                Surveillant[] surveillants = epreuves[i].getSurveillants();</b>
+<b class="nc">&nbsp;                if (surveillants != null &amp;&amp; surveillants.length &gt; 0) {</b>
+<b class="nc">&nbsp;                    for (int j = 0; j &lt; surveillants.length; j++) {</b>
+<b class="nc">&nbsp;                        if (surveillants[j] != null) {</b>
+<b class="nc">&nbsp;                            System.out.println(&quot;  - &quot; + surveillants[j].getNom() + &quot; &quot; + surveillants[j].getPrenom());</b>
+&nbsp;                        }
+&nbsp;                    }
+&nbsp;                } else {
+<b class="nc">&nbsp;                    System.out.println(&quot;  Aucun surveillant assigné.&quot;);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private void afficherStatistiques() {
+<b class="nc">&nbsp;        System.out.println(&quot;\n===== STATISTIQUES =====&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (nbFormulaires == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Aucun formulaire disponible pour les statistiques.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Formulaire[] formulairesActuels = new Formulaire[nbFormulaires];</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nbFormulaires; i++) {</b>
+<b class="nc">&nbsp;            formulairesActuels[i] = formulaires[i];</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(formulairesActuels[0].statistiques(formulairesActuels));</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void rechercheFiltre() {
+<b class="nc">&nbsp;        System.out.println(&quot;\n===== RECHERCHE FILTRÉE D&#39;ÉTUDIANTS =====&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (nbFormulaires == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Aucun formulaire disponible.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;\nFormulaires disponibles :&quot;);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nbFormulaires; i++) {</b>
+<b class="nc">&nbsp;            System.out.println((i + 1) + &quot;. Formulaire &quot; + (i + 1) + &quot; - &quot; + formulaires[i].getEpreuves()[0].getCodeECUE());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Sélectionnez un formulaire (numéro) : &quot;);</b>
+<b class="nc">&nbsp;        int choixFormulaire = lireEntier(1, nbFormulaires);</b>
+<b class="nc">&nbsp;        if (choixFormulaire == -1) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : choix invalide.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Formulaire formulaireSelectionne = formulaires[choixFormulaire - 1];</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;\n--- Critères de recherche (appuyez sur Entrée pour ignorer un critère) ---&quot;);</b>
+<b class="nc">&nbsp;        System.out.print(&quot;Nom (ou laisser vide) : &quot;);</b>
+<b class="nc">&nbsp;        String nom = scanner.nextLine().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Prénom (ou laisser vide) : &quot;);</b>
+<b class="nc">&nbsp;        String prenom = scanner.nextLine().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Numéro apprenant (ou laisser vide) : &quot;);</b>
+<b class="nc">&nbsp;        String numero = scanner.nextLine().trim();</b>
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;\n--- Résultats de la recherche ---&quot;);</b>
+<b class="nc">&nbsp;        String resultats = formulaireSelectionne.rechercheFiltre(</b>
+<b class="nc">&nbsp;                nom.isEmpty() ? null : nom,</b>
+<b class="nc">&nbsp;                prenom.isEmpty() ? null : prenom,</b>
+<b class="nc">&nbsp;                numero.isEmpty() ? null : numero</b>
+&nbsp;        );
+<b class="nc">&nbsp;        System.out.println(resultats);</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private void afficherGraphe() {
+<b class="nc">&nbsp;        System.out.println(&quot;\n===== GRAPHE DE PLAGIAT =====&quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        if (nbFormulaires == 0) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Aucun formulaire disponible.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        System.out.println(&quot;\nFormulaires disponibles :&quot;);</b>
+<b class="nc">&nbsp;        for (int i = 0; i &lt; nbFormulaires; i++) {</b>
+<b class="nc">&nbsp;            System.out.println((i + 1) + &quot;. Formulaire &quot; + (i + 1) + &quot; - &quot; + formulaires[i].getEpreuves()[0].getCodeECUE());</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        System.out.print(&quot;Sélectionnez un formulaire (numéro) : &quot;);</b>
+<b class="nc">&nbsp;        int choixFormulaire = lireEntier(1, nbFormulaires);</b>
+<b class="nc">&nbsp;        if (choixFormulaire == -1) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : choix invalide.&quot;);</b>
+&nbsp;            return;
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        Formulaire formulaireSelectionne = formulaires[choixFormulaire - 1];</b>
+<b class="nc">&nbsp;        System.out.println(&quot;\n&quot; + formulaireSelectionne.graphe());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private LocalDate lireDate() {
+&nbsp;        try {
+<b class="nc">&nbsp;            String dateStr = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;            return LocalDate.parse(dateStr, dateFormatterFR);</b>
+&nbsp;        } catch (DateTimeParseException e) {
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : format de date invalide (jj/mm/aaaa).&quot;);</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private LocalTime lireHeure() {
+&nbsp;        try {
+<b class="nc">&nbsp;            String heureStr = scanner.nextLine().trim();</b>
+<b class="nc">&nbsp;            return LocalTime.parse(heureStr, DateTimeFormatter.ofPattern(&quot;HH:mm&quot;));</b>
+&nbsp;        } catch (DateTimeParseException e) {
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : format d&#39;heure invalide (HH:MM).&quot;);</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    private Modalite lireModalite() {
+<b class="nc">&nbsp;        System.out.println(&quot;Modalités disponibles :&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;1. Oral&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;2. Ecrit&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;3. QCM&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;4. Ordi&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;5. Projet&quot;);</b>
+<b class="nc">&nbsp;        System.out.println(&quot;6. TP&quot;);</b>
+<b class="nc">&nbsp;        System.out.print(&quot;Sélectionnez une modalité (1-6) : &quot;);</b>
+&nbsp;
+<b class="nc">&nbsp;        int choix = lireEntier(1, 6);</b>
+<b class="nc">&nbsp;        if (choix == -1) {</b>
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : modalité invalide.&quot;);</b>
+<b class="nc">&nbsp;            return null;</b>
+&nbsp;        }
+&nbsp;
+<b class="nc">&nbsp;        return Modalite.values()[choix - 1];</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    private int lireEntier(int min, int max) {
+&nbsp;        try {
+<b class="nc">&nbsp;            int valeur = Integer.parseInt(scanner.nextLine().trim());</b>
+<b class="nc">&nbsp;            if (valeur &gt;= min &amp;&amp; valeur &lt;= max) {</b>
+<b class="nc">&nbsp;                return valeur;</b>
+&nbsp;            } else {
+<b class="nc">&nbsp;                System.out.println(&quot;Erreur : veuillez saisir un numéro entre &quot; + min + &quot; et &quot; + max + &quot;.&quot;);</b>
+&nbsp;            }
+&nbsp;        } catch (NumberFormatException e) {
+<b class="nc">&nbsp;            System.out.println(&quot;Erreur : veuillez saisir un nombre entier.&quot;);</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return -1;</b>
+&nbsp;    }
 &nbsp;}
 </code>
 </pre>
@@ -108,7 +696,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2026-06-14 23:44</div>
+    <div style="float:right;">generated on 2026-06-15 00:16</div>
 </div>
 </body>
 </html>

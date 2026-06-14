@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Surveillant</title>
+  <title>Coverage Report > FraudePapier</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">system.personne</a>
+    <a href="../index.html">system.fraude</a>
 </div>
 
-<h1>Coverage Summary for Class: Surveillant (system.personne)</h1>
+<h1>Coverage Summary for Class: FraudePapier (system.fraude)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -41,7 +41,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Surveillant</td>
+  <td class="name">FraudePapier</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -75,19 +75,24 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package system.personne;
+<code class="sourceCode" id="sourceCode">&nbsp;package system.fraude;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;
 &nbsp;/**
-&nbsp; * @brief Classe représentant un surveillant héritant de la class Personne.
+&nbsp; * @brief  Classe  représentant une fraude d&#39;usage d&#39;une anti-sèche.
 &nbsp; */
-&nbsp;public class Surveillant extends  Personne{
+&nbsp;public class FraudePapier extends Fraude{
+&nbsp;    public static final String type = &quot;PAPIER&quot;;
+&nbsp;
 &nbsp;    /**
-&nbsp;     * @brief Constructeur de la classe Surveillant
-&nbsp;     * @param num
-&nbsp;     * @param nom
-&nbsp;     * @param prenom
+&nbsp;     * @brief Constructeur de la classe FraudePapier.
+&nbsp;     * @param date
+&nbsp;     * @param contenu
+&nbsp;     * @param descriptionTextuelle
 &nbsp;     */
-&nbsp;    public Surveillant(String num, String nom, String prenom) {
-<b class="fc">&nbsp;        super(num, nom, prenom);</b>
+&nbsp;    public FraudePapier(LocalDate date, String contenu, String descriptionTextuelle){
+<b class="fc">&nbsp;        super(date,contenu,descriptionTextuelle);</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -113,7 +118,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2026-06-14 23:44</div>
+    <div style="float:right;">generated on 2026-06-15 00:16</div>
 </div>
 </body>
 </html>

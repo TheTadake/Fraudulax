@@ -5,7 +5,7 @@
 <html id="htmlId">
 <head>
   <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
-  <title>Coverage Report > Epreuve</title>
+  <title>Coverage Report > Formulaire</title>
   <style type="text/css">
     @import "../../css/coverage.css";
     @import "../../css/idea.min.css";
@@ -19,10 +19,10 @@
 <div class="breadCrumbs">
 Current scope:     <a href="../../index.html">all classes</a>
     <span class="separator">|</span>
-    <a href="../index.html">system.epreuve</a>
+    <a href="../index.html">system</a>
 </div>
 
-<h1>Coverage Summary for Class: Epreuve (system.epreuve)</h1>
+<h1>Coverage Summary for Class: Formulaire (system)</h1>
 
 <table class="coverageStats">
 <tr>
@@ -45,7 +45,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 </th>
 </tr>
 <tr>
-  <td class="name">Epreuve</td>
+  <td class="name">Formulaire</td>
 <td class="coverageStat">
   <span class="percent">
     100%
@@ -56,26 +56,26 @@ Current scope:     <a href="../../index.html">all classes</a>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    15,8%
+    77,8%
   </span>
   <span class="absValue">
-    (3/19)
+    (14/18)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    0%
+    96,8%
   </span>
   <span class="absValue">
-    (0/22)
+    (60/62)
   </span>
 </td>
 <td class="coverageStat">
   <span class="percent">
-    25%
+    95,8%
   </span>
   <span class="absValue">
-    (10/40)
+    (91/95)
   </span>
 </td>
 </tr>
@@ -87,120 +87,240 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 
 <pre>
-<code class="sourceCode" id="sourceCode">&nbsp;package system.epreuve;
+<code class="sourceCode" id="sourceCode">&nbsp;package system;
 &nbsp;
-&nbsp;import system.personne.Professeur;
-&nbsp;import system.personne.Surveillant;
+&nbsp;import system.fraude.Fraude;
+&nbsp;import system.personne.Etudiant;
+&nbsp;import system.epreuve.Epreuve;
 &nbsp;
 &nbsp;import java.time.LocalDate;
 &nbsp;import java.time.LocalTime;
-&nbsp;import java.util.Objects;
+&nbsp;import java.util.*;
 &nbsp;
 &nbsp;/**
-&nbsp; * @brief Classe représentant une épreuve d&#39;examen.
-&nbsp; * @details Cette classe contient les informations relatives à une épreuve, telles que le code de l&#39;ECUE,
-&nbsp; * la date et l&#39;heure de passage, la modalité, la durée, le professeur responsable et les surveillants assignés.
+&nbsp; * @brief class représentant un formulaire de fraude contenant une liste d&#39;épreuves, d&#39;étudiants et de fraudes ainsi qu&#39;un horodatage .
+&nbsp; *
 &nbsp; */
-&nbsp;public class Epreuve {
-&nbsp;    private String codeECUE;
-&nbsp;    private LocalDate datePassage;
-&nbsp;    private LocalTime heurePassage;
-&nbsp;    private Modalite modalite;
-&nbsp;    private int duree; // en minutes
-&nbsp;    private Professeur professeur;
-&nbsp;    private Surveillant[] surveillants;
+&nbsp;public class Formulaire {
+&nbsp;    private Fraude[] fraudes;
+&nbsp;    private Etudiant[] etudiants;
+&nbsp;    private Epreuve[] epreuves;
+&nbsp;    private LocalDate creationDate;
+<b class="fc">&nbsp;    private LocalDate modificationDate = null;</b>
+&nbsp;    private LocalTime creationTime;
+<b class="fc">&nbsp;    private LocalTime modificationTime= null;</b>
 &nbsp;
 &nbsp;    /**
-&nbsp;     * @brief Constructeur de la classe Epreuve.
-&nbsp;     * @param codeECUE Le code de l&#39;ECUE associé à l&#39;épreuve.
-&nbsp;     * @param datePassage La date de passage de l&#39;épreuve.
-&nbsp;     * @param heurePassage L&#39;heure de passage de l&#39;épreuve.
-&nbsp;     * @param modalite La modalité de l&#39;épreuve (écrit, oral, etc.).
-&nbsp;     * @param duree La durée de l&#39;épreuve en minutes.
-&nbsp;     * @param professeur Le professeur responsable de l&#39;épreuve.
-&nbsp;     * @param surveillants Les surveillants assignés à l&#39;épreuve.
+&nbsp;     * @brief Constructeur de la classe Formulaire
+&nbsp;     * @param fraudes
+&nbsp;     * @param etudiants
+&nbsp;     * @param epreuves
 &nbsp;     */
-<b class="fc">&nbsp;    public Epreuve(String codeECUE, LocalDate datePassage, LocalTime heurePassage, Modalite modalite, int duree, Professeur professeur, Surveillant[] surveillants) {</b>
-<b class="fc">&nbsp;        this.codeECUE = codeECUE;</b>
-<b class="fc">&nbsp;        this.datePassage = datePassage;</b>
-<b class="fc">&nbsp;        this.heurePassage = heurePassage;</b>
-<b class="fc">&nbsp;        this.modalite = modalite;</b>
-<b class="fc">&nbsp;        this.duree = duree;</b>
-<b class="fc">&nbsp;        this.professeur = professeur;</b>
-<b class="fc">&nbsp;        this.surveillants = surveillants;</b>
+<b class="fc">&nbsp;    public Formulaire(Fraude[] fraudes, Etudiant[] etudiants, Epreuve[] epreuves) {</b>
+<b class="fc">&nbsp;        if (fraudes == null || etudiants == null || epreuves == null) {</b>
+<b class="fc">&nbsp;            throw new IllegalArgumentException(&quot;Les tableaux fraudes, etudiants et epreuves ne peuvent pas être null.&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        this.fraudes = fraudes;</b>
+<b class="fc">&nbsp;        this.etudiants = etudiants;</b>
+<b class="fc">&nbsp;        this.epreuves = epreuves;</b>
+<b class="fc">&nbsp;        this.creationDate = LocalDate.now();</b>
+<b class="fc">&nbsp;        this.creationTime = LocalTime.now().withNano(0);</b>
 &nbsp;    }
-<b class="fc">&nbsp;    public String getCodeECUE() { return  codeECUE; }</b>
-<b class="nc">&nbsp;    public void  setCodeECUE(String codeECUE) { this.codeECUE = codeECUE; }</b>
 &nbsp;
-<b class="fc">&nbsp;    public LocalDate getDatePassage() { return datePassage; }</b>
-<b class="nc">&nbsp;    public void setDatePassage(LocalDate datePassage) { this.datePassage = datePassage; }</b>
+&nbsp;    public Fraude[] getFraudes() {
+<b class="fc">&nbsp;        return fraudes;</b>
+&nbsp;    }
 &nbsp;
-<b class="nc">&nbsp;    public LocalTime getHeurePassage() { return heurePassage; }</b>
-<b class="nc">&nbsp;    public void setHeurePassage(LocalTime heurePassage) { this.heurePassage = heurePassage; }</b>
+&nbsp;    public void setFraudes(Fraude[] fraudes) {
+<b class="fc">&nbsp;        this.fraudes = fraudes;</b>
+<b class="fc">&nbsp;        setModificationDate(LocalDate.now());</b>
+<b class="fc">&nbsp;        setModificationTime(LocalTime.now());</b>
+&nbsp;    }
 &nbsp;
-<b class="nc">&nbsp;    public Modalite getModalite() {return modalite;}</b>
-<b class="nc">&nbsp;    public void setModalite(Modalite modalite) {this.modalite = modalite;}</b>
+&nbsp;    public Etudiant[] getEtudiants() {
+<b class="fc">&nbsp;        return etudiants;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEtudiants(Etudiant[] etudiants) {
+<b class="fc">&nbsp;        this.etudiants = etudiants;</b>
+<b class="fc">&nbsp;        setModificationDate(LocalDate.now());</b>
+<b class="fc">&nbsp;        setModificationTime(LocalTime.now());</b>
+&nbsp;
+&nbsp;    }
+&nbsp;  
+&nbsp;    public Epreuve[] getEpreuves() {
+<b class="fc">&nbsp;        return epreuves;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public void setEpreuves(Epreuve[] epreuves) {
+<b class="fc">&nbsp;        this.epreuves = epreuves;</b>
+<b class="fc">&nbsp;        setModificationDate(LocalDate.now());</b>
+<b class="fc">&nbsp;        setModificationTime(LocalTime.now());</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    public LocalDate getCreationDate() {
+<b class="nc">&nbsp;        return creationDate;</b>
+&nbsp;    }
+&nbsp;    public void setCreationDate(LocalDate creationDate) {
+<b class="nc">&nbsp;        this.creationDate = creationDate;</b>
 &nbsp;
 &nbsp;
-<b class="nc">&nbsp;    public int getDuree() {return duree;}</b>
-<b class="nc">&nbsp;    public void setDuree(int duree) {this.duree = duree;}</b>
+&nbsp;    }
+&nbsp;    public LocalTime getCreationTime() {
+<b class="nc">&nbsp;        return creationTime;</b>
 &nbsp;
-<b class="nc">&nbsp;    public Professeur getProfesseur() {return professeur;}</b>
-<b class="nc">&nbsp;    public void setProfesseur(Professeur professeur) {this.professeur = professeur;}</b>
+&nbsp;    }
+&nbsp;    public void setCreationTime(LocalTime creationTime) {
+<b class="nc">&nbsp;        this.creationTime = creationTime.withNano(0);</b>
 &nbsp;
-<b class="nc">&nbsp;    public Surveillant[] getSurveillants() {return surveillants;}</b>
-<b class="nc">&nbsp;    public void setSurveillants(Surveillant[] surveillants) {this.surveillants = surveillants;}</b>
+&nbsp;    }
+&nbsp;    public LocalDate getModificationDate() {
+<b class="fc">&nbsp;        return modificationDate;</b>
+&nbsp;    }
+&nbsp;    public  void setModificationDate(LocalDate modificationDate) {
+<b class="fc">&nbsp;        this.modificationDate = modificationDate;</b>
+&nbsp;    }
+&nbsp;    public LocalTime getModificationTime() {
+<b class="fc">&nbsp;        return modificationTime;</b>
+&nbsp;    }
+&nbsp;    public void setModificationTime(LocalTime modificationTime) {
+<b class="fc">&nbsp;        this.modificationTime = modificationTime.withNano(0);</b>
+&nbsp;    }
+&nbsp;
 &nbsp;
 &nbsp;    /**
-&nbsp;     * @brief Méthode permettant d&#39;ajouter un surveillant à l&#39;épreuve, sans avoir à connaître les anciens.
-&nbsp;     * @param newSurveillant Le surveillant à ajouter à l&#39;épreuve.
+&nbsp;     * @briefFiltre les étudiants selon nom, prénom et/ou numéro.
+&nbsp;     * Un critère null ou vide est ignoré.
+&nbsp;     * @param nom Le nom de l&#39;étudiant à rechercher (peut être null ou vide)
+&nbsp;     * @param prenom Le prénom de l&#39;étudiant à rechercher (peut être null ou vide)
+&nbsp;     * @param numero Le numéro de l&#39;étudiant à rechercher (peut être null ou vide)
+&nbsp;     * @return Une chaîne de caractères représentant les étudiants filtrés, ou un message indiquant qu&#39;aucun étudiant n&#39;a été trouvé.
+&nbsp;    */
+&nbsp;    public String rechercheFiltre(String nom, String prenom, String numero) {
+<b class="fc">&nbsp;        StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;        boolean etudiantTrouve = false;</b>
+&nbsp;
+<b class="fc">&nbsp;        sb.append(String.format(&quot;%-15s %-15s %-10s %-10s%n&quot;, &quot;Nom&quot;, &quot;Prénom&quot;, &quot;Numéro&quot;, &quot;Cursus&quot;));</b>
+<b class="fc">&nbsp;        sb.append(&quot;-&quot;.repeat(50)).append(&quot;\n&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Etudiant e : this.etudiants) {</b>
+<b class="fc">&nbsp;            boolean matchNom = (nom == null || nom.isBlank()) || e.getNom().equalsIgnoreCase(nom.trim());</b>
+<b class="fc">&nbsp;            boolean matchPrenom = (prenom == null || prenom.isBlank()) || e.getPrenom().equalsIgnoreCase(prenom.trim());</b>
+<b class="fc">&nbsp;            boolean matchNum = (numero == null || numero.isBlank()) || e.getNum().equalsIgnoreCase(numero.trim());</b>
+&nbsp;
+<b class="fc">&nbsp;            if (matchNom &amp;&amp; matchPrenom &amp;&amp; matchNum) {</b>
+<b class="fc">&nbsp;                sb.append(String.format(&quot;%-15s %-15s %-10s %-10s%n&quot;, e.getNom(), e.getPrenom(), e.getNum(), e.getCursus()));</b>
+<b class="fc">&nbsp;                etudiantTrouve = true;</b>
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (!etudiantTrouve) return &quot;Aucun étudiant trouvé pour les critères donnés.\n&quot;;</b>
+<b class="fc">&nbsp;        return sb.toString();</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @brief Cette méthode calcule et retourne des statistiques sur un tableau de formulaires.
+&nbsp;     * @param formulaire Liste de formulaire
+&nbsp;     * @return Une chaîne de caractères contenant les statistiques calculées, incluant le nombre de formulaires, le nombre d&#39;étudiants uniques, le nombre total de fraudes, la moyenne de fraudes par formulaire et l&#39;écart type du nombre de fraudes par formulaire.
 &nbsp;     */
-&nbsp;    public void addSurveillant (Surveillant newSurveillant) {
-<b class="nc">&nbsp;        if (surveillants == null) {</b>
-<b class="nc">&nbsp;            surveillants = new Surveillant[]{newSurveillant};</b>
-&nbsp;        } else {
-<b class="nc">&nbsp;            Surveillant[] updatedSurveillants = new Surveillant[surveillants.length + 1];</b>
-<b class="nc">&nbsp;            for (int i = 0; i &lt; surveillants.length; i++) {</b>
-<b class="nc">&nbsp;                updatedSurveillants[i] = surveillants[i];</b>
-&nbsp;            }
-<b class="nc">&nbsp;            updatedSurveillants[surveillants.length] = newSurveillant;</b>
-<b class="nc">&nbsp;            surveillants = updatedSurveillants;</b>
+&nbsp;    public static String statistiques( Formulaire[] formulaire){
+<b class="fc">&nbsp;        int nbFormulaire = formulaire.length;</b>
+<b class="fc">&nbsp;        int nbEtudiantUnique = 0;</b>
+<b class="fc">&nbsp;        int nbFraudes = 0;</b>
+<b class="fc">&nbsp;        int moyFraudeByFormulaire = 0;</b>
+<b class="fc">&nbsp;        double ecartType = 0;</b>
+<b class="fc">&nbsp;        int nbEtu = 0;</b>
+<b class="fc">&nbsp;        for(int i = 0; i &lt; nbFormulaire; i++){</b>
+<b class="fc">&nbsp;            nbEtu += formulaire[i].getEtudiants().length;</b>
 &nbsp;        }
-&nbsp;    }
+<b class="fc">&nbsp;        Etudiant[] listeEtuUnique =new Etudiant[nbEtu] ;</b>
 &nbsp;
-&nbsp;    @Override
-&nbsp;    public String toString() {
-<b class="nc">&nbsp;        String surveillantList = &quot;&quot;;</b>
-<b class="nc">&nbsp;        if (surveillants != null) {</b>
-<b class="nc">&nbsp;            for (int i = 0; i &lt; surveillants.length; i++) {</b>
-<b class="nc">&nbsp;                surveillantList += surveillants[i].getNom() + &quot; &quot; + surveillants[i].getPrenom() + &quot;\n&quot;;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; nbFormulaire; i++){</b>
+&nbsp;            // Calcul du nombre total de fraudes
+<b class="fc">&nbsp;            nbFraudes += formulaire[i].getFraudes().length;</b>
+&nbsp;
+&nbsp;
+&nbsp;            // Ajout des étudiants uniques à la liste
+<b class="fc">&nbsp;            for (int k = 0; k &lt; formulaire[i].getEtudiants().length; k++){</b>
+<b class="fc">&nbsp;                boolean isUnique = true;</b>
+<b class="fc">&nbsp;                for (int j = 0; j &lt; nbEtudiantUnique; j++){</b>
+<b class="fc">&nbsp;                    if (formulaire[i].getEtudiants()[k].equals(listeEtuUnique[j])){</b>
+<b class="fc">&nbsp;                        isUnique = false;</b>
+&nbsp;                        break;
+&nbsp;                    }
+&nbsp;                }
+<b class="fc">&nbsp;                if (isUnique){</b>
+<b class="fc">&nbsp;                    listeEtuUnique[nbEtudiantUnique] = formulaire[i].getEtudiants()[k];</b>
+<b class="fc">&nbsp;                    nbEtudiantUnique++;</b>
+&nbsp;                }
 &nbsp;
 &nbsp;            }
-&nbsp;        }else{
-<b class="nc">&nbsp;            surveillantList = &quot;Aucun surveillant assigné.\n&quot;;</b>
 &nbsp;        }
-<b class="nc">&nbsp;        return &quot;Epreuve : &quot; +</b>
-&nbsp;                &quot;codeECUE : &quot; + codeECUE + &#39;\n&#39; +
-&nbsp;                &quot;datePassage : &quot; + datePassage + &#39;\n&#39; +
-&nbsp;                &quot;heurePassage : &quot; + heurePassage +&#39;\n&#39; +
-&nbsp;                &quot;modalite : &quot; + modalite +&#39;\n&#39; +
-&nbsp;                &quot;duree : &quot; + duree +&#39;\n&#39; +
-<b class="nc">&nbsp;                &quot;professeur : &quot; + professeur.getNom() + &quot; &quot; + professeur.getPrenom() +&#39;\n&#39; +</b>
-&nbsp;                &quot;surveillants : &quot; +surveillantList;
+&nbsp;        // Calcul de la moyenne de fraudes par formulaire
+<b class="fc">&nbsp;        moyFraudeByFormulaire = nbFraudes / nbFormulaire;</b>
 &nbsp;
+&nbsp;        // Calcul de l&#39;écart type
+<b class="fc">&nbsp;        int[] fraudesParFormulaire = new int[nbFormulaire];</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; nbFormulaire; i++){</b>
+<b class="fc">&nbsp;            fraudesParFormulaire[i] = formulaire[i].getFraudes().length;</b>
+&nbsp;        }
 &nbsp;
+<b class="fc">&nbsp;        double sommeCarres = 0;</b>
+<b class="fc">&nbsp;        for (int i = 0; i &lt; nbFormulaire; i++){</b>
+<b class="fc">&nbsp;            sommeCarres += Math.pow(fraudesParFormulaire[i] - moyFraudeByFormulaire, 2);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        ecartType = Math.sqrt(sommeCarres / nbFormulaire);</b>
+&nbsp;
+<b class="fc">&nbsp;       return &quot;Comptage des formulaires : &quot; + nbFormulaire + &quot;\n&quot; +</b>
+&nbsp;              &quot;Nombre d&#39;étudiants uniques : &quot; + nbEtudiantUnique + &quot;\n&quot; +
+&nbsp;              &quot;Nombre total de fraudes : &quot; + nbFraudes + &quot;\n&quot; +
+&nbsp;              &quot;Moyenne de fraudes par formulaire : &quot; + moyFraudeByFormulaire + &quot;\n&quot; +
+&nbsp;              &quot;Écart type du nombre de fraudes par formulaire : &quot; + ecartType;
 &nbsp;    }
 &nbsp;
-&nbsp;    @Override
-&nbsp;    public boolean equals(Object o) {
-<b class="nc">&nbsp;        if (o == null || getClass() != o.getClass()) return false;</b>
-<b class="nc">&nbsp;        Epreuve epreuve = (Epreuve) o;</b>
-<b class="nc">&nbsp;        return duree == epreuve.duree &amp;&amp; Objects.equals(codeECUE, epreuve.codeECUE) &amp;&amp; Objects.equals(datePassage, epreuve.datePassage) &amp;&amp; Objects.equals(heurePassage, epreuve.heurePassage) &amp;&amp; modalite == epreuve.modalite;</b>
-&nbsp;    }
 &nbsp;
-&nbsp;    @Override
-&nbsp;    public int hashCode() {
-<b class="nc">&nbsp;        return Objects.hash(codeECUE, datePassage, heurePassage, modalite, duree);</b>
+&nbsp;    /**
+&nbsp;     * @biref La fonction graphique() construit un graphe non-orienté de plagiat. Deux étudiants sont reliés s&#39;ils ont fraudé lors de la même épreuve :
+&nbsp;     * même codeECUE + même datePassage
+&nbsp;     * @return Une chaîne de caractères représentant le graphe de plagiat, avec chaque étudiant et ses voisins (étudiants liés par plagiat) affichés de manière hiérarchique. Si aucune relation de plagiat n&#39;est détectée, un message approprié est retourné.
+&nbsp;     *
+&nbsp;     */
+&nbsp;    public String graphe() {
+<b class="fc">&nbsp;        int n = this.etudiants.length; // Avec n le nombre d&#39;entrées dans le formulaire</b>
+<b class="fc">&nbsp;        Map&lt;Etudiant, Set&lt;Etudiant&gt;&gt; relation = new LinkedHashMap&lt;&gt;(); // Conserver l&#39;ordre d&#39;insertion à l&#39;affichage</b>
+&nbsp;
+<b class="fc">&nbsp;        for (int i = 0; i &lt; n; i++) {</b>
+<b class="fc">&nbsp;            for (int j = i + 1; j &lt; n; j++) {</b>
+<b class="fc">&nbsp;                boolean memeEpreuve = this.epreuves[i].getCodeECUE().equals(this.epreuves[j].getCodeECUE())</b>
+<b class="fc">&nbsp;                        &amp;&amp; this.epreuves[i].getDatePassage().equals(this.epreuves[j].getDatePassage());</b>
+&nbsp;
+<b class="fc">&nbsp;                if (memeEpreuve) {</b>
+<b class="fc">&nbsp;                    Etudiant a = this.etudiants[i];</b>
+<b class="fc">&nbsp;                    Etudiant b = this.etudiants[j];</b>
+<b class="pc">&nbsp;                    if (!relation.containsKey(a)) relation.put(a, new LinkedHashSet&lt;&gt;());</b>
+<b class="fc">&nbsp;                    relation.get(a).add(b);</b>
+<b class="pc">&nbsp;                    if (!relation.containsKey(b)) relation.put(b, new LinkedHashSet&lt;&gt;());</b>
+<b class="fc">&nbsp;                    relation.get(b).add(a);</b>
+&nbsp;                }
+&nbsp;            }
+&nbsp;        }
+&nbsp;
+<b class="fc">&nbsp;        if (relation.isEmpty()) return &quot;Aucune relation de plagiat détectée.\n&quot;;</b>
+&nbsp;
+<b class="fc">&nbsp;        StringBuilder sb = new StringBuilder();</b>
+<b class="fc">&nbsp;        sb.append(&quot;Graphe de plagiat\n\n&quot;);</b>
+&nbsp;
+<b class="fc">&nbsp;        for (Map.Entry&lt;Etudiant, Set&lt;Etudiant&gt;&gt; entry : relation.entrySet()) {</b>
+<b class="fc">&nbsp;            Etudiant e = entry.getKey(); // Affichage du noeud principal</b>
+<b class="fc">&nbsp;            sb.append(e.getNom()).append(&quot; &quot;).append(e.getPrenom()).append(&quot; (&quot;).append(e.getNum()).append(&quot;)\n&quot;);</b>
+&nbsp;            // Affichage des voisins
+<b class="fc">&nbsp;            for (Etudiant voisin : entry.getValue()) {</b>
+<b class="fc">&nbsp;                sb.append(&quot;  |____ &quot;)</b>
+<b class="fc">&nbsp;                        .append(voisin.getNom()).append(&quot; &quot;).append(voisin.getPrenom()).append(&quot; (&quot;).append(voisin.getNum()).append(&quot;)\n&quot;);</b>
+&nbsp;            }
+<b class="fc">&nbsp;            sb.append(&quot;\n&quot;);</b>
+&nbsp;        }
+<b class="fc">&nbsp;        return sb.toString();</b>
 &nbsp;    }
 &nbsp;}
 </code>
@@ -226,7 +346,7 @@ Current scope:     <a href="../../index.html">all classes</a>
 
 <div class="footer">
     
-    <div style="float:right;">generated on 2026-06-14 23:44</div>
+    <div style="float:right;">generated on 2026-06-15 00:16</div>
 </div>
 </body>
 </html>
