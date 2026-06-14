@@ -40,6 +40,37 @@ public class TestFormulaire {
         };
     }
 
+    @Test
+    public void testConstructeur() {
+        Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
+        assertArrayEquals(fraudes, formulaire.getFraudes(), "Les fraudes doivent être égales à celles fournies dans le constructeur");
+        assertArrayEquals(etudiants, formulaire.getEtudiants(), "Les étudiants doivent être égaux à ceux fournis dans le constructeur");
+        assertArrayEquals(epreuves, formulaire.getEpreuves(), "Les épreuves doivent être égales à celles fournies dans le constructeur");
+    }
 
+    @Test
+    public void testRechercheFiltre(){
+        Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
+        String resultat = formulaire.rechercheFiltre("Maréchal", null, null);
+        assertTrue(resultat.contains("Maréchal"), "Le résultat doit contenir le nom de l'étudiant recherché");
+        assertFalse(resultat.contains("Durand"), "Le résultat ne doit pas contenir le nom de l'étudiant non recherché");
+    }
+    
+    @Test
+    public void testStatistiques(){
+        Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
+        String statistiques = formulaire.statistiques();
+        assertTrue(statistiques.contains("Nombre total de fraudes : 2"), "Le résultat doit contenir le nombre total de fraudes");
+        assertTrue(statistiques.contains("Nombre total d'étudiants : 2"), "Le résultat doit contenir le nombre total d'étudiants");
+        assertTrue(statistiques.contains("Nombre total d'épreuves : 1"), "Le résultat doit contenir le nombre total d'épreuves");
+    }
 
+    @Test
+    public void testGraphe(){
+        Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
+        String graphe = formulaire.graphe();
+        assertTrue(graphe.contains("Graphe des fraudes"), "Le résultat doit contenir le titre du graphe");
+        assertTrue(graphe.contains("Etudiant : Maréchal"), "Le résultat doit contenir le nom de l'étudiant impliqué dans la fraude");
+        assertTrue(graphe.contains("Etudiant : Durand"), "Le résultat doit contenir le nom de l'étudiant impliqué dans la fraude");
+    }
 }
