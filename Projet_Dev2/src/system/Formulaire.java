@@ -4,13 +4,29 @@ import system.fraude.Fraude;
 import system.personne.Etudiant;
 import system.epreuve.Epreuve;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
+/**
+ * @brief class représentant un formulaire de fraude contenant une liste d'épreuves, d'étudiants et de fraudes ainsi qu'un horodatage .
+ *
+ */
 public class Formulaire {
     private Fraude[] fraudes;
     private Etudiant[] etudiants;
     private Epreuve[] epreuves;
+    private LocalDate creationDate;
+    private LocalDate modificationDate = null;
+    private LocalTime creationTime;
+    private LocalTime modificationTime= null;
 
+    /**
+     * @brief Constructeur de la classe Formulaire
+     * @param fraudes
+     * @param etudiants
+     * @param epreuves
+     */
     public Formulaire(Fraude[] fraudes, Etudiant[] etudiants, Epreuve[] epreuves) {
         if (fraudes.length != etudiants.length || fraudes.length != epreuves.length) {
             throw new IllegalArgumentException("Les tableaux fraudes, etudiants et epreuves doivent avoir la même taille.");
@@ -18,6 +34,8 @@ public class Formulaire {
         this.fraudes = fraudes;
         this.etudiants = etudiants;
         this.epreuves = epreuves;
+        this.creationDate = LocalDate.now();
+        this.creationTime = LocalTime.now().withNano(0);
     }
 
     public Fraude[] getFraudes() {
@@ -26,6 +44,8 @@ public class Formulaire {
 
     public void setFraudes(Fraude[] fraudes) {
         this.fraudes = fraudes;
+        setModificationDate(LocalDate.now());
+        setModificationTime(LocalTime.now());
     }
 
     public Etudiant[] getEtudiants() {
@@ -34,6 +54,9 @@ public class Formulaire {
 
     public void setEtudiants(Etudiant[] etudiants) {
         this.etudiants = etudiants;
+        setModificationDate(LocalDate.now());
+        setModificationTime(LocalTime.now());
+
     }
   
     public Epreuve[] getEpreuves() {
@@ -42,12 +65,47 @@ public class Formulaire {
 
     public void setEpreuves(Epreuve[] epreuves) {
         this.epreuves = epreuves;
+        setModificationDate(LocalDate.now());
+        setModificationTime(LocalTime.now());
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+
+
+    }
+    public LocalTime getCreationTime() {
+        return creationTime;
+
+    }
+    public void setCreationTime(LocalTime creationTime) {
+        this.creationTime = creationTime.withNano(0);
+
+    }
+    public LocalDate getModificationDate() {
+        return modificationDate;
+    }
+    public  void setModificationDate(LocalDate modificationDate) {
+        this.modificationDate = modificationDate;
+    }
+    public LocalTime getModificationTime() {
+        return modificationTime;
+    }
+    public void setModificationTime(LocalTime modificationTime) {
+        this.modificationTime = modificationTime.withNano(0);
     }
 
 
     /**
-     * Filtre les étudiants selon nom, prénom et/ou numéro.
+     * @briefFiltre les étudiants selon nom, prénom et/ou numéro.
      * Un critère null ou vide est ignoré.
+     * @param nom Le nom de l'étudiant à rechercher (peut être null ou vide)
+     * @param prenom Le prénom de l'étudiant à rechercher (peut être null ou vide)
+     * @param numero Le numéro de l'étudiant à rechercher (peut être null ou vide)
+     * @return Une chaîne de caractères représentant les étudiants filtrés, ou un message indiquant qu'aucun étudiant n'a été trouvé.
     */
     public String rechercheFiltre(String nom, String prenom, String numero) {
         StringBuilder sb = new StringBuilder();
@@ -71,7 +129,11 @@ public class Formulaire {
         return sb.toString();
     }
 
-
+    /**
+     * @brief Cette méthode calcule et retourne des statistiques sur un tableau de formulaires.
+     * @param formulaire Liste de formulaire
+     * @return Une chaîne de caractères contenant les statistiques calculées, incluant le nombre de formulaires, le nombre d'étudiants uniques, le nombre total de fraudes, la moyenne de fraudes par formulaire et l'écart type du nombre de fraudes par formulaire.
+     */
     public String statisques( Formulaire[] formulaire){
         int nbFormulaire = formulaire.length;
         int nbEtudiantUnique = 0;
@@ -129,9 +191,10 @@ public class Formulaire {
 
 
     /**
-     * La fonction graphique() construit un graphe non-orienté de plagiat.
-     * Deux étudiants sont reliés s'ils ont fraudé lors de la même épreuve :
+     * @biref La fonction graphique() construit un graphe non-orienté de plagiat. Deux étudiants sont reliés s'ils ont fraudé lors de la même épreuve :
      * même codeECUE + même datePassage
+     * @return Une chaîne de caractères représentant le graphe de plagiat, avec chaque étudiant et ses voisins (étudiants liés par plagiat) affichés de manière hiérarchique. Si aucune relation de plagiat n'est détectée, un message approprié est retourné.
+     *
      */
     public String graphe() {
         int n = this.etudiants.length; // Avec n le nombre d'entrées dans le formulaire
