@@ -81,7 +81,4 @@ public class TestFraude {
         assertEquals("Utilisation de notes sur papier pendant une épreuve", fraudePapier.getContenu(), "Le contenu de la fraude est incorrect, il doit valoir 'Utilisation de notes sur papier pendant une épreuve'");
         assertEquals("Un étudiant a été surpris en train d'utiliser des notes sur papier pendant une épreuve.", fraudePapier.getDescription(), "La description de la fraude est incorrecte, elle doit valoir 'Un étudiant a été surpris en train d'utiliser des notes sur papier pendant une épreuve.'");
     }
-
-
-
 }

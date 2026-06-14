@@ -16,7 +16,6 @@ import java.time.LocalDate;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class TestFormulaire {
-    // Test constructeur
     private Fraude[] fraudes;
     private Etudiant[] etudiants;
     private Epreuve[] epreuves;
@@ -41,6 +40,7 @@ public class TestFormulaire {
         };
     }
 
+    // Test constructeur
     @Test
     public void testConstructeurValide() {
         Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
@@ -55,7 +55,7 @@ public class TestFormulaire {
         assertThrows(IllegalArgumentException.class, () -> new Formulaire(fraudes, null, epreuves), "Le constructeur doit lancer une exception si le tableau d'étudiants est null");
         assertThrows(IllegalArgumentException.class, () -> new Formulaire(fraudes, etudiants, null), "Le constructeur doit lancer une exception si le tableau d'épreuves est null");
     }
-
+    // Test rechercheFiltre
     @Test
     public void testRechercheFiltre(){
         Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
@@ -95,6 +95,7 @@ public class TestFormulaire {
         assertTrue(resultat.contains("Durand"), "Le résultat doit contenir le nom de l'étudiant Durand");
     }
 
+    // Test statistiques
     @Test
     public void testStatistiques(){
         Formulaire formulaire1 = new Formulaire(fraudes, etudiants, epreuves);
@@ -105,6 +106,7 @@ public class TestFormulaire {
         assertTrue(statistiques.contains("Nombre d'étudiants uniques : 2"), "Le résultat doit contenir le nombre total d'étudiants");
     }
 
+    // Test graphe
     @Test
     public void testGraphe(){
         Epreuve ep1 = new Epreuve("ECUE125", LocalDate.of(2026,1,15), null, Modalite.TP, 180, null, surveillants);
@@ -125,5 +127,15 @@ public class TestFormulaire {
         Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
         String resultat = formulaire.graphe();
         assertEquals("Aucune relation de plagiat détectée.\n", resultat, "Le résultat doit indiquer qu'aucune relation de plagiat n'a été détectée");
+    }
+
+    @Test
+    public void testSetFraudes() {
+        Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
+        Fraude[] nouvellesFraudes = {fraudes[0]};
+        formulaire.setFraudes(nouvellesFraudes);
+        assertArrayEquals(nouvellesFraudes, formulaire.getFraudes(),"Les fraudes doivent être mises à jour avec les nouvelles fraudes");
+        assertNotNull(formulaire.getModificationDate(),"Le formulaire doit avoir une date de modification après la mise à jour des fraudes");
+        assertNotNull(formulaire.getModificationTime(),"Le formulaire doit avoir une heure de modification après la mise à jour des fraudes");
     }
 }
