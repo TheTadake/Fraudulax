@@ -2,18 +2,29 @@ package system.personne;
 
 import java.util.Objects;
 
+/**
+ * @brief Classe abstraite représentant une personne avec un numéro, un nom et un prénom.
+ */
 public abstract class Personne {
     private  String num;
     private  String nom;
     private String prenom;
 
+    /**
+     * @brief Constructeur de la classe abstraite
+     * @param num numéro d'étudiant
+     * @param nom Nom de l'édutdiant
+     * @param prenom Prenom de l'étudiant
+     */
     protected Personne(String num, String nom, String prenom) {
         this.num = num;
         this.nom = nom;
         this.prenom = prenom;
     }
 
+
     public String getNum() {return num;}
+
     public   void setNum(String num) {this.num = num;}
 
     public String getNom() {return nom;}
@@ -22,6 +33,7 @@ public abstract class Personne {
     public String getPrenom() {return prenom;}
     public void setPrenom(String prenom) {this.prenom = prenom;}
 
+    
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;

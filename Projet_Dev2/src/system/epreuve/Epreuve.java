@@ -7,6 +7,11 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.Objects;
 
+/**
+ * @brief Classe représentant une épreuve d'examen.
+ * @details Cette classe contient les informations relatives à une épreuve, telles que le code de l'ECUE,
+ * la date et l'heure de passage, la modalité, la durée, le professeur responsable et les surveillants assignés.
+ */
 public class Epreuve {
     private String codeECUE;
     private LocalDate datePassage;
@@ -16,6 +21,16 @@ public class Epreuve {
     private Professeur professeur;
     private Surveillant[] surveillants;
 
+    /**
+     * @brief Constructeur de la classe Epreuve.
+     * @param codeECUE Le code de l'ECUE associé à l'épreuve.
+     * @param datePassage La date de passage de l'épreuve.
+     * @param heurePassage L'heure de passage de l'épreuve.
+     * @param modalite La modalité de l'épreuve (écrit, oral, etc.).
+     * @param duree La durée de l'épreuve en minutes.
+     * @param professeur Le professeur responsable de l'épreuve.
+     * @param surveillants Les surveillants assignés à l'épreuve.
+     */
     public Epreuve(String codeECUE, LocalDate datePassage, LocalTime heurePassage, Modalite modalite, int duree, Professeur professeur, Surveillant[] surveillants) {
         this.codeECUE = codeECUE;
         this.datePassage = datePassage;
@@ -47,6 +62,10 @@ public class Epreuve {
     public Surveillant[] getSurveillants() {return surveillants;}
     public void setSurveillants(Surveillant[] surveillants) {this.surveillants = surveillants;}
 
+    /**
+     * @brief Méthode permettant d'ajouter un surveillant à l'épreuve, sans avoir à connaître les anciens.
+     * @param newSurveillant Le surveillant à ajouter à l'épreuve.
+     */
     public void addSurveillant (Surveillant newSurveillant) {
         if (surveillants == null) {
             surveillants = new Surveillant[]{newSurveillant};

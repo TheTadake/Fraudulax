@@ -2,13 +2,21 @@ package system.fraude;
 
 import java.time.LocalDate;
 import java.util.Objects;
-
+/**
+ * @brief Classe abstraite représentant une fraude.
+ * @details Cette classe contient les informations relatives à une fraude, telles que la date, le contenu et la description.
+ */
 public abstract class Fraude {
     private LocalDate date;
     private String contenu;
     private String description;
 
-
+    /**
+     * @brief Constructeur de la classe Fraude.
+     * @param date
+     * @param contenu
+     * @param description
+     */
     public Fraude(LocalDate date, String contenu, String description) {
         this.date = date;
         this.contenu = contenu;
