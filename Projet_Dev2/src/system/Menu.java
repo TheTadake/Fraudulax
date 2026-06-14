@@ -12,20 +12,26 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
+import java.util.Locale;
 import java.util.Scanner;
 
 public class Menu {
+
     private Formulaire[] formulaires;
-    private Epreuve[] epreuves;
+    private Epreuve[] epreuves ;
     private Scanner scanner;
+    private Etudiant[] etudiants;
     private int nbFormulaires;
     private int nbEpreuves;
+    private DateTimeFormatter dateFormatterFR = DateTimeFormatter.ofPattern("dd/MM/yyyy", Locale.FRANCE);
+    private DateTimeFormatter timeFormatter = DateTimeFormatter.ofPattern("HH:mm:ss");
 
-    public Menu() {
-        this.epreuves = new Epreuve[100];
+    public Menu(Epreuve[] epreuves,Etudiant[] etudiants) {
+        this.epreuves = epreuves ;
         this.formulaires = new Formulaire[100];
         this.nbFormulaires = 0;
-        this.nbEpreuves = 0;
+        this.nbEpreuves = epreuves.length;
+        this.etudiants = etudiants;
         this.scanner = new Scanner(System.in);
     }
 
@@ -39,8 +45,9 @@ public class Menu {
             System.out.println("4. Afficher les formulaires");
             System.out.println("5. Afficher les épreuves");
             System.out.println("6. Afficher les statistiques");
-            System.out.println("7. Quitter");
-            System.out.print("Sélectionnez une action (1-7) : ");
+            System.out.println("7. Recherche filtrée d'étudiants");
+            System.out.println("8. Quitter");
+            System.out.print("Sélectionnez une action (1-8) : ");
 
             String choix = scanner.nextLine().trim();
             switch (choix) {
@@ -63,11 +70,14 @@ public class Menu {
                     afficherStatistiques();
                     break;
                 case "7":
+                    rechercheFiltre();
+                    break;
+                case "8":
                     System.out.println("Au revoir!");
                     continuer = false;
                     break;
                 default:
-                    System.out.println("Erreur : veuillez saisir un numéro entre 1 et 7.");
+                    System.out.println("Erreur : veuillez saisir un numéro entre 1 et 8.");
             }
         }
         scanner.close();
@@ -79,7 +89,7 @@ public class Menu {
         System.out.print("Code ECUE : ");
         String codeECUE = scanner.nextLine().trim();
 
-        System.out.print("Date de passage (YYYY-MM-DD) : ");
+        System.out.print("Date de passage (jj/mm/aaaa) : ");
         LocalDate datePassage = lireDate();
         if (datePassage == null) return;
 
@@ -139,7 +149,9 @@ public class Menu {
         // Étape 1 : Sélection de l'épreuve
         System.out.println("\nÉpreuves disponibles :");
         for (int i = 0; i < nbEpreuves; i++) {
-            System.out.println((i + 1) + ". " + epreuves[i].getCodeECUE() + " - " + epreuves[i].getDatePassage());
+            if (epreuves[i] != null) {
+                System.out.println((i + 1) + ". " + epreuves[i].getCodeECUE() + " - " + epreuves[i].getDatePassage().format(dateFormatterFR));
+            }
         }
         System.out.print("Sélectionnez une épreuve (numéro) : ");
 
@@ -230,7 +242,7 @@ public class Menu {
                 break;
             }
 
-            System.out.print("Date de la fraude (YYYY-MM-DD) : ");
+            System.out.print("Date de la fraude (jj/mm/aaaa) : ");
             LocalDate date = lireDate();
             if (date == null) continue;
 
@@ -316,10 +328,64 @@ public class Menu {
         }
 
         for (int i = 0; i < nbFormulaires; i++) {
-            System.out.println("\nFormulaire " + (i + 1) + " :");
-            System.out.println("  - Épreuve : " + formulaires[i].getEpreuves()[0].getCodeECUE());
-            System.out.println("  - Étudiants : " + formulaires[i].getEtudiants().length);
-            System.out.println("  - Fraudes : " + formulaires[i].getFraudes().length);
+            System.out.println("\n" + "=".repeat(60));
+            System.out.println("FORMULAIRE " + (i + 1));
+            System.out.println("=".repeat(60));
+
+            // Affichage des dates de création et modification
+            System.out.println("\n--- INFORMATIONS DU FORMULAIRE ---");
+            System.out.println("Date de création : " + formulaires[i].getCreationDate().format(dateFormatterFR) + " à " + formulaires[i].getCreationTime().format(timeFormatter));
+            if (formulaires[i].getModificationDate() != null) {
+                System.out.println("Date de modification : " + formulaires[i].getModificationDate().format(dateFormatterFR) + " à " + formulaires[i].getModificationTime().format(timeFormatter));
+            } else {
+                System.out.println("Date de modification : Aucune modification");
+            }
+
+            // Affichage des épreuves
+            System.out.println("\n--- INFORMATIONS DE L'ÉPREUVE ---");
+            Epreuve[] epreuves = formulaires[i].getEpreuves();
+            for (int j = 0; j < epreuves.length; j++) {
+                if (epreuves[j] != null) {
+                    System.out.println("Code ECUE : " + epreuves[j].getCodeECUE());
+                    System.out.println("Date : " + epreuves[j].getDatePassage().format(dateFormatterFR));
+                    System.out.println("Heure : " + epreuves[j].getHeurePassage().format(timeFormatter));
+                    System.out.println("Modalité : " + epreuves[j].getModalite());
+                    System.out.println("Durée : " + epreuves[j].getDuree() + " minutes");
+                    System.out.println("Professeur : " + epreuves[j].getProfesseur().getNom() + " " + epreuves[j].getProfesseur().getPrenom());
+                }
+            }
+
+            // Affichage des étudiants
+            System.out.println("\n--- ÉTUDIANTS IMPLIQUÉS ---");
+            Etudiant[] etudiants = formulaires[i].getEtudiants();
+            for (int j = 0; j < etudiants.length; j++) {
+                if (etudiants[j] != null) {
+                    System.out.println((j + 1) + ". Nom : " + etudiants[j].getNom());
+                    System.out.println("   Prénom : " + etudiants[j].getPrenom());
+                    System.out.println("   Numéro apprenant : " + etudiants[j].getNum());
+                    System.out.println("   Cursus : " + etudiants[j].getCursus());
+                }
+            }
+
+            // Affichage des fraudes
+            System.out.println("\n--- FRAUDES COMMISES ---");
+            Fraude[] fraudes = formulaires[i].getFraudes();
+            if (fraudes.length == 0) {
+                System.out.println("Aucune fraude enregistrée.");
+            } else {
+                for (int j = 0; j < fraudes.length; j++) {
+                    if (fraudes[j] != null) {
+                        System.out.println((j + 1) + ". Type : " + fraudes[j].getClass().getSimpleName());
+                        System.out.println("   Date : " + fraudes[j].getDate().format(dateFormatterFR));
+                        System.out.println("   Description : " + fraudes[j].getDescription());
+                        System.out.println("   Contenu : " + fraudes[j].getContenu());
+                        if (fraudes[j].getClass().getSimpleName().equals("FraudeIAGConnecte")) {
+                            System.out.println("   Adresse IP : " + ((system.fraude.FraudeIAGConnecte)fraudes[j]).getAdresseIP());
+                        }
+                    }
+                }
+            }
+            System.out.println();
         }
     }
 
@@ -332,7 +398,26 @@ public class Menu {
         }
 
         for (int i = 0; i < nbEpreuves; i++) {
-            System.out.println("\n" + epreuves[i].toString());
+            if (epreuves[i] != null) {
+                System.out.println("\nCode ECUE : " + epreuves[i].getCodeECUE());
+                System.out.println("Date : " + epreuves[i].getDatePassage().format(dateFormatterFR));
+                System.out.println("Heure : " + epreuves[i].getHeurePassage().format(timeFormatter));
+                System.out.println("Modalité : " + epreuves[i].getModalite());
+                System.out.println("Durée : " + epreuves[i].getDuree() + " minutes");
+                System.out.println("Professeur : " + epreuves[i].getProfesseur().getNom() + " " + epreuves[i].getProfesseur().getPrenom());
+
+                System.out.println("Surveillants :");
+                Surveillant[] surveillants = epreuves[i].getSurveillants();
+                if (surveillants != null && surveillants.length > 0) {
+                    for (int j = 0; j < surveillants.length; j++) {
+                        if (surveillants[j] != null) {
+                            System.out.println("  - " + surveillants[j].getNom() + " " + surveillants[j].getPrenom());
+                        }
+                    }
+                } else {
+                    System.out.println("  Aucun surveillant assigné.");
+                }
+            }
         }
     }
 
@@ -349,16 +434,56 @@ public class Menu {
             formulairesActuels[i] = formulaires[i];
         }
 
-        Formulaire formulaire = new Formulaire(null, null, null);
-        System.out.println(formulaire.statisques(formulairesActuels));
+        System.out.println(formulairesActuels[0].statisques(formulairesActuels));
+    }
+
+    private void rechercheFiltre() {
+        System.out.println("\n===== RECHERCHE FILTRÉE D'ÉTUDIANTS =====");
+
+        if (nbFormulaires == 0) {
+            System.out.println("Aucun formulaire disponible.");
+            return;
+        }
+
+        System.out.println("\nFormulaires disponibles :");
+        for (int i = 0; i < nbFormulaires; i++) {
+            System.out.println((i + 1) + ". Formulaire " + (i + 1) + " - " + formulaires[i].getEpreuves()[0].getCodeECUE());
+        }
+
+        System.out.print("Sélectionnez un formulaire (numéro) : ");
+        int choixFormulaire = lireEntier(1, nbFormulaires);
+        if (choixFormulaire == -1) {
+            System.out.println("Erreur : choix invalide.");
+            return;
+        }
+
+        Formulaire formulaireSelectionne = formulaires[choixFormulaire - 1];
+
+        System.out.println("\n--- Critères de recherche (appuyez sur Entrée pour ignorer un critère) ---");
+        System.out.print("Nom (ou laisser vide) : ");
+        String nom = scanner.nextLine().trim();
+
+        System.out.print("Prénom (ou laisser vide) : ");
+        String prenom = scanner.nextLine().trim();
+
+        System.out.print("Numéro apprenant (ou laisser vide) : ");
+        String numero = scanner.nextLine().trim();
+
+        System.out.println("\n--- Résultats de la recherche ---");
+        String resultats = formulaireSelectionne.rechercheFiltre(
+                nom.isEmpty() ? null : nom,
+                prenom.isEmpty() ? null : prenom,
+                numero.isEmpty() ? null : numero
+        );
+        System.out.println(resultats);
     }
 
     private LocalDate lireDate() {
         try {
             String dateStr = scanner.nextLine().trim();
-            return LocalDate.parse(dateStr, DateTimeFormatter.ISO_LOCAL_DATE);
+            return LocalDate.parse(dateStr, dateFormatterFR);
         } catch (DateTimeParseException e) {
-            System.out.println("Erreur : format de date invalide (YYYY-MM-DD).");
+            System.out.println("Erreur : format de date invalide (jj/mm/aaaa).");
             return null;
         }
     }

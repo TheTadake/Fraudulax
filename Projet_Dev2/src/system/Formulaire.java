@@ -4,12 +4,19 @@ import system.fraude.Fraude;
 import system.personne.Etudiant;
 import system.epreuve.Epreuve;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.*;
 
 public class Formulaire {
     private Fraude[] fraudes;
     private Etudiant[] etudiants;
     private Epreuve[] epreuves;
+    private LocalDate creationDate;
+    private LocalDate modificationDate = null;
+    private LocalTime creationTime;
+    private LocalTime modificationTime= null;
+
 
     public Formulaire(Fraude[] fraudes, Etudiant[] etudiants, Epreuve[] epreuves) {
         if (fraudes.length != etudiants.length || fraudes.length != epreuves.length) {
@@ -18,6 +25,8 @@ public class Formulaire {
         this.fraudes = fraudes;
         this.etudiants = etudiants;
         this.epreuves = epreuves;
+        this.creationDate = LocalDate.now();
+        this.creationTime = LocalTime.now().withNano(0);
     }
 
     public Fraude[] getFraudes() {
@@ -26,6 +35,8 @@ public class Formulaire {
 
     public void setFraudes(Fraude[] fraudes) {
         this.fraudes = fraudes;
+        setModificationDate(LocalDate.now());
+        setModificationTime(LocalTime.now());
     }
 
     public Etudiant[] getEtudiants() {
@@ -34,6 +45,9 @@ public class Formulaire {
 
     public void setEtudiants(Etudiant[] etudiants) {
         this.etudiants = etudiants;
+        setModificationDate(LocalDate.now());
+        setModificationTime(LocalTime.now());
+
     }
   
     public Epreuve[] getEpreuves() {
@@ -42,6 +56,37 @@ public class Formulaire {
 
     public void setEpreuves(Epreuve[] epreuves) {
         this.epreuves = epreuves;
+        setModificationDate(LocalDate.now());
+        setModificationTime(LocalTime.now());
+    }
+
+    public LocalDate getCreationDate() {
+        return creationDate;
+    }
+    public void setCreationDate(LocalDate creationDate) {
+        this.creationDate = creationDate;
+
+
+    }
+    public LocalTime getCreationTime() {
+        return creationTime;
+
+    }
+    public void setCreationTime(LocalTime creationTime) {
+        this.creationTime = creationTime.withNano(0);
+
+    }
+    public LocalDate getModificationDate() {
+        return modificationDate;
+    }
+    public  void setModificationDate(LocalDate modificationDate) {
+        this.modificationDate = modificationDate;
+    }
+    public LocalTime getModificationTime() {
+        return modificationTime;
+    }
+    public void setModificationTime(LocalTime modificationTime) {
+        this.modificationTime = modificationTime.withNano(0);
     }
 
 
