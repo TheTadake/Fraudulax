@@ -35,6 +35,19 @@ public class Menu {
         this.scanner = new Scanner(System.in);
     }
 
+    // Getters et setters pour l'accès aux formulaires
+    public Formulaire[] getFormulaires() {
+        return formulaires;
+    }
+
+    public void setNbFormulaires(int nbFormulaires) {
+        this.nbFormulaires = nbFormulaires;
+    }
+
+    public int getNbFormulaires() {
+        return nbFormulaires;
+    }
+
     public void afficherMenuPrincipal() {
         boolean continuer = true;
         while (continuer) {
@@ -46,8 +59,9 @@ public class Menu {
             System.out.println("5. Afficher les épreuves");
             System.out.println("6. Afficher les statistiques");
             System.out.println("7. Recherche filtrée d'étudiants");
-            System.out.println("8. Quitter");
-            System.out.print("Sélectionnez une action (1-8) : ");
+            System.out.println("8. Afficher le graphe de plagiat");
+            System.out.println("9. Quitter");
+            System.out.print("Sélectionnez une action (1-9) : ");
 
             String choix = scanner.nextLine().trim();
             switch (choix) {
@@ -73,11 +87,14 @@ public class Menu {
                     rechercheFiltre();
                     break;
                 case "8":
+                    afficherGraphe();
+                    break;
+                case "9":
                     System.out.println("Au revoir!");
                     continuer = false;
                     break;
                 default:
-                    System.out.println("Erreur : veuillez saisir un numéro entre 1 et 8.");
+                    System.out.println("Erreur : veuillez saisir un numéro entre 1 et 9.");
             }
         }
         scanner.close();
@@ -229,65 +246,77 @@ public class Menu {
         boolean ajouterFraude = true;
 
         while (ajouterFraude) {
-            System.out.println("\nTypes de fraude disponibles :");
-            System.out.println("1. Fraude IAG");
-            System.out.println("2. Fraude IAG Connectée");
-            System.out.println("3. Fin des fraudes");
-            System.out.print("Sélectionnez un type (1-3) : ");
+             System.out.println("\nTypes de fraude disponibles :");
+             System.out.println("1. Fraude Calculatrice");
+             System.out.println("2. Fraude Papier");
+             System.out.println("3. Fraude IAG");
+             System.out.println("4. Fraude IAG Connectée");
+             System.out.println("5. Fin des fraudes");
+             System.out.print("Sélectionnez un type (1-5) : ");
 
-            String typeFraude = scanner.nextLine().trim();
+             String typeFraude = scanner.nextLine().trim();
 
-            if (typeFraude.equals("3")) {
-                ajouterFraude = false;
-                break;
-            }
+             if (typeFraude.equals("5")) {
+                 ajouterFraude = false;
+                 break;
+             }
 
-            System.out.print("Date de la fraude (jj/mm/aaaa) : ");
-            LocalDate date = lireDate();
-            if (date == null) continue;
+             System.out.print("Date de la fraude (jj/mm/aaaa) : ");
+             LocalDate date = lireDate();
+             if (date == null) continue;
 
-            System.out.print("Contenu de la fraude : ");
-            String contenu = scanner.nextLine().trim();
-            if (contenu.isEmpty()) {
-                System.out.println("Erreur : le contenu ne peut pas être vide.");
-                continue;
-            }
+             System.out.print("Contenu de la fraude : ");
+             String contenu = scanner.nextLine().trim();
+             if (contenu.isEmpty()) {
+                 System.out.println("Erreur : le contenu ne peut pas être vide.");
+                 continue;
+             }
 
-            System.out.print("Description de la fraude : ");
-            String description = scanner.nextLine().trim();
-            if (description.isEmpty()) {
-                System.out.println("Erreur : la description ne peut pas être vide.");
-                continue;
-            }
+             System.out.print("Description de la fraude : ");
+             String description = scanner.nextLine().trim();
+             if (description.isEmpty()) {
+                 System.out.println("Erreur : la description ne peut pas être vide.");
+                 continue;
+             }
 
-            Fraude fraude;
-            if (typeFraude.equals("1")) {
-                fraude = new FraudeIAG(date, contenu, description);
-            } else if (typeFraude.equals("2")) {
-                System.out.print("Adresse IP : ");
-                String adresseIP = scanner.nextLine().trim();
-                if (adresseIP.isEmpty()) {
-                    System.out.println("Erreur : l'adresse IP ne peut pas être vide.");
-                    continue;
-                }
-                fraude = new FraudeIAGConnecte(date, contenu, description, adresseIP);
-            } else {
-                System.out.println("Erreur : type de fraude invalide.");
-                continue;
-            }
+             Fraude fraude;
+             if (typeFraude.equals("1")) {
+                 fraude = new FraudeCalculatrice(date, contenu, description);
+             } else if (typeFraude.equals("2")) {
+                 fraude = new FraudePapier(date, contenu, description);
+             } else if (typeFraude.equals("3")) {
+                 fraude = new FraudeIAG(date, contenu, description);
+             } else if (typeFraude.equals("4")) {
+                 System.out.print("Adresse IP : ");
+                 String adresseIP = scanner.nextLine().trim();
+                 if (adresseIP.isEmpty()) {
+                     System.out.println("Erreur : l'adresse IP ne peut pas être vide.");
+                     continue;
+                 }
+                 fraude = new FraudeIAGConnecte(date, contenu, description, adresseIP);
+             } else {
+                 System.out.println("Erreur : type de fraude invalide.");
+                 continue;
+             }
 
-            fraudes[nbFraudes] = fraude;
-            nbFraudes++;
-            System.out.println("✓ Fraude ajoutée.");
-        }
+             fraudes[nbFraudes] = fraude;
+             nbFraudes++;
+             System.out.println("✓ Fraude ajoutée.");
+         }
 
         Fraude[] fraudesFinal = new Fraude[nbFraudes];
         for (int i = 0; i < nbFraudes; i++) {
             fraudesFinal[i] = fraudes[i];
         }
 
+        // Création du tableau d'épreuves avec la même taille
+        Epreuve[] epreuvesFinal = new Epreuve[nbFraudes];
+        for (int i = 0; i < nbFraudes; i++) {
+            epreuvesFinal[i] = epreuveSelectionnee;
+        }
+
         // Création du formulaire
-        Formulaire nouveauFormulaire = new Formulaire(fraudesFinal, etudiantsFinal, new Epreuve[]{epreuveSelectionnee});
+        Formulaire nouveauFormulaire = new Formulaire(fraudesFinal, etudiantsFinal, epreuvesFinal);
         formulaires[nbFormulaires] = nouveauFormulaire;
         nbFormulaires++;
 
@@ -476,6 +505,30 @@ public class Menu {
                 numero.isEmpty() ? null : numero
         );
         System.out.println(resultats);
+    }
+
+    private void afficherGraphe() {
+        System.out.println("\n===== GRAPHE DE PLAGIAT =====");
+
+        if (nbFormulaires == 0) {
+            System.out.println("Aucun formulaire disponible.");
+            return;
+        }
+
+        System.out.println("\nFormulaires disponibles :");
+        for (int i = 0; i < nbFormulaires; i++) {
+            System.out.println((i + 1) + ". Formulaire " + (i + 1) + " - " + formulaires[i].getEpreuves()[0].getCodeECUE());
+        }
+
+        System.out.print("Sélectionnez un formulaire (numéro) : ");
+        int choixFormulaire = lireEntier(1, nbFormulaires);
+        if (choixFormulaire == -1) {
+            System.out.println("Erreur : choix invalide.");
+            return;
+        }
+
+        Formulaire formulaireSelectionne = formulaires[choixFormulaire - 1];
+        System.out.println("\n" + formulaireSelectionne.graphe());
     }
 
     private LocalDate lireDate() {
