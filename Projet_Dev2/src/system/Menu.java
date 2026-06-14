@@ -463,7 +463,7 @@ public class Menu {
             formulairesActuels[i] = formulaires[i];
         }
 
-        System.out.println(formulairesActuels[0].statisques(formulairesActuels));
+        System.out.println(formulairesActuels[0].statistiques(formulairesActuels));
     }
 
     private void rechercheFiltre() {

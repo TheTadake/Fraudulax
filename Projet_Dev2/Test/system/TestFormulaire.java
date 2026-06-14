@@ -5,6 +5,8 @@ import org.junit.jupiter.api.Test;
 import system.epreuve.Epreuve;
 import system.epreuve.Modalite;
 import system.fraude.Fraude;
+import system.fraude.FraudeIAG;
+import system.fraude.FraudePapier;
 import system.personne.Cursus;
 import system.personne.Etudiant;
 import system.personne.Surveillant;
@@ -23,8 +25,8 @@ public class TestFormulaire {
     @BeforeEach
     public void setUp(){
         fraudes = new Fraude[]{
-                new Fraude(LocalDate.of(2026,01,19), "Copie de cours", "Etudiant a été trouvé avec une copie de cours pendant l'épreuve"),
-                new Fraude(LocalDate.of(2026,02,27), "Triche électronique", "Etudiant a été trouvé avec un appareil électronique non autorisé pendant l'épreuve")
+                new FraudePapier(LocalDate.of(2026,01,19), "Copie de cours", "Etudiant a été trouvé avec une copie de cours pendant l'épreuve"),
+                new FraudeIAG(LocalDate.of(2026,02,27), "Triche anti-sèche", "Etudiant a été trouvé avec une anti-sèche pendant l'épreuve")
         };
         etudiants = new Etudiant[]{
                 new Etudiant("12345","Maréchal", "Jean", Cursus.E2),
@@ -59,7 +61,10 @@ public class TestFormulaire {
     @Test
     public void testStatistiques(){
         Formulaire formulaire = new Formulaire(fraudes, etudiants, epreuves);
-        String statistiques = formulaire.statistiques();
+        Formulaire[] lesformulaires = new Formulaire[10];
+        lesformulaires[0] = formulaire;
+
+        String statistiques = formulaire.statistiques(lesformulaires);
         assertTrue(statistiques.contains("Nombre total de fraudes : 2"), "Le résultat doit contenir le nombre total de fraudes");
         assertTrue(statistiques.contains("Nombre total d'étudiants : 2"), "Le résultat doit contenir le nombre total d'étudiants");
         assertTrue(statistiques.contains("Nombre total d'épreuves : 1"), "Le résultat doit contenir le nombre total d'épreuves");
