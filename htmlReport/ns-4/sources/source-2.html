@@ -1,0 +1,129 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Etudiant</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">system.personne</a>
+</div>
+
+<h1>Coverage Summary for Class: Etudiant (system.personne)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Etudiant</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    66,7%
+  </span>
+  <span class="absValue">
+    (2/3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    75%
+  </span>
+  <span class="absValue">
+    (3/4)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package system.personne;
+&nbsp;
+&nbsp;/**
+&nbsp; * @brief Classe représentant un étudiant héritant de la class Personne.
+&nbsp; */
+&nbsp;public class Etudiant extends Personne{
+&nbsp;    private Cursus cursus;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @brief Constructeur de la classe Etudiant
+&nbsp;     * @param num
+&nbsp;     * @param nom
+&nbsp;     * @param prenom
+&nbsp;     * @param cursus
+&nbsp;     */
+&nbsp;    public Etudiant(String num, String nom, String prenom, Cursus cursus) {
+<b class="fc">&nbsp;        super(num, nom, prenom);</b>
+<b class="fc">&nbsp;        this.cursus = cursus;</b>
+&nbsp;    }
+&nbsp;
+<b class="fc">&nbsp;    public Cursus getCursus() {return cursus;}</b>
+<b class="nc">&nbsp;    public void setCursus(Cursus cursus) {this.cursus = cursus;}</b>
+&nbsp;
+&nbsp;
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-06-14 23:44</div>
+</div>
+</body>
+</html>

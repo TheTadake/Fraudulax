@@ -1,0 +1,232 @@
+
+
+
+<!DOCTYPE html>
+<html id="htmlId">
+<head>
+  <meta http-equiv="Content-Type" content="text/html;charset=UTF-8"> 
+  <title>Coverage Report > Epreuve</title>
+  <style type="text/css">
+    @import "../../css/coverage.css";
+    @import "../../css/idea.min.css";
+  </style>
+  <script type="text/javascript" src="../../js/highlight.min.js"></script>
+  <script type="text/javascript" src="../../js/highlightjs-line-numbers.min.js"></script>
+</head>
+
+<body>
+<div class="content">
+<div class="breadCrumbs">
+Current scope:     <a href="../../index.html">all classes</a>
+    <span class="separator">|</span>
+    <a href="../index.html">system.epreuve</a>
+</div>
+
+<h1>Coverage Summary for Class: Epreuve (system.epreuve)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Branch, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">Epreuve</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    15,8%
+  </span>
+  <span class="absValue">
+    (3/19)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    0%
+  </span>
+  <span class="absValue">
+    (0/22)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    25%
+  </span>
+  <span class="absValue">
+    (10/40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<pre>
+<code class="sourceCode" id="sourceCode">&nbsp;package system.epreuve;
+&nbsp;
+&nbsp;import system.personne.Professeur;
+&nbsp;import system.personne.Surveillant;
+&nbsp;
+&nbsp;import java.time.LocalDate;
+&nbsp;import java.time.LocalTime;
+&nbsp;import java.util.Objects;
+&nbsp;
+&nbsp;/**
+&nbsp; * @brief Classe représentant une épreuve d&#39;examen.
+&nbsp; * @details Cette classe contient les informations relatives à une épreuve, telles que le code de l&#39;ECUE,
+&nbsp; * la date et l&#39;heure de passage, la modalité, la durée, le professeur responsable et les surveillants assignés.
+&nbsp; */
+&nbsp;public class Epreuve {
+&nbsp;    private String codeECUE;
+&nbsp;    private LocalDate datePassage;
+&nbsp;    private LocalTime heurePassage;
+&nbsp;    private Modalite modalite;
+&nbsp;    private int duree; // en minutes
+&nbsp;    private Professeur professeur;
+&nbsp;    private Surveillant[] surveillants;
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @brief Constructeur de la classe Epreuve.
+&nbsp;     * @param codeECUE Le code de l&#39;ECUE associé à l&#39;épreuve.
+&nbsp;     * @param datePassage La date de passage de l&#39;épreuve.
+&nbsp;     * @param heurePassage L&#39;heure de passage de l&#39;épreuve.
+&nbsp;     * @param modalite La modalité de l&#39;épreuve (écrit, oral, etc.).
+&nbsp;     * @param duree La durée de l&#39;épreuve en minutes.
+&nbsp;     * @param professeur Le professeur responsable de l&#39;épreuve.
+&nbsp;     * @param surveillants Les surveillants assignés à l&#39;épreuve.
+&nbsp;     */
+<b class="fc">&nbsp;    public Epreuve(String codeECUE, LocalDate datePassage, LocalTime heurePassage, Modalite modalite, int duree, Professeur professeur, Surveillant[] surveillants) {</b>
+<b class="fc">&nbsp;        this.codeECUE = codeECUE;</b>
+<b class="fc">&nbsp;        this.datePassage = datePassage;</b>
+<b class="fc">&nbsp;        this.heurePassage = heurePassage;</b>
+<b class="fc">&nbsp;        this.modalite = modalite;</b>
+<b class="fc">&nbsp;        this.duree = duree;</b>
+<b class="fc">&nbsp;        this.professeur = professeur;</b>
+<b class="fc">&nbsp;        this.surveillants = surveillants;</b>
+&nbsp;    }
+<b class="fc">&nbsp;    public String getCodeECUE() { return  codeECUE; }</b>
+<b class="nc">&nbsp;    public void  setCodeECUE(String codeECUE) { this.codeECUE = codeECUE; }</b>
+&nbsp;
+<b class="fc">&nbsp;    public LocalDate getDatePassage() { return datePassage; }</b>
+<b class="nc">&nbsp;    public void setDatePassage(LocalDate datePassage) { this.datePassage = datePassage; }</b>
+&nbsp;
+<b class="nc">&nbsp;    public LocalTime getHeurePassage() { return heurePassage; }</b>
+<b class="nc">&nbsp;    public void setHeurePassage(LocalTime heurePassage) { this.heurePassage = heurePassage; }</b>
+&nbsp;
+<b class="nc">&nbsp;    public Modalite getModalite() {return modalite;}</b>
+<b class="nc">&nbsp;    public void setModalite(Modalite modalite) {this.modalite = modalite;}</b>
+&nbsp;
+&nbsp;
+<b class="nc">&nbsp;    public int getDuree() {return duree;}</b>
+<b class="nc">&nbsp;    public void setDuree(int duree) {this.duree = duree;}</b>
+&nbsp;
+<b class="nc">&nbsp;    public Professeur getProfesseur() {return professeur;}</b>
+<b class="nc">&nbsp;    public void setProfesseur(Professeur professeur) {this.professeur = professeur;}</b>
+&nbsp;
+<b class="nc">&nbsp;    public Surveillant[] getSurveillants() {return surveillants;}</b>
+<b class="nc">&nbsp;    public void setSurveillants(Surveillant[] surveillants) {this.surveillants = surveillants;}</b>
+&nbsp;
+&nbsp;    /**
+&nbsp;     * @brief Méthode permettant d&#39;ajouter un surveillant à l&#39;épreuve, sans avoir à connaître les anciens.
+&nbsp;     * @param newSurveillant Le surveillant à ajouter à l&#39;épreuve.
+&nbsp;     */
+&nbsp;    public void addSurveillant (Surveillant newSurveillant) {
+<b class="nc">&nbsp;        if (surveillants == null) {</b>
+<b class="nc">&nbsp;            surveillants = new Surveillant[]{newSurveillant};</b>
+&nbsp;        } else {
+<b class="nc">&nbsp;            Surveillant[] updatedSurveillants = new Surveillant[surveillants.length + 1];</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; surveillants.length; i++) {</b>
+<b class="nc">&nbsp;                updatedSurveillants[i] = surveillants[i];</b>
+&nbsp;            }
+<b class="nc">&nbsp;            updatedSurveillants[surveillants.length] = newSurveillant;</b>
+<b class="nc">&nbsp;            surveillants = updatedSurveillants;</b>
+&nbsp;        }
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public String toString() {
+<b class="nc">&nbsp;        String surveillantList = &quot;&quot;;</b>
+<b class="nc">&nbsp;        if (surveillants != null) {</b>
+<b class="nc">&nbsp;            for (int i = 0; i &lt; surveillants.length; i++) {</b>
+<b class="nc">&nbsp;                surveillantList += surveillants[i].getNom() + &quot; &quot; + surveillants[i].getPrenom() + &quot;\n&quot;;</b>
+&nbsp;
+&nbsp;            }
+&nbsp;        }else{
+<b class="nc">&nbsp;            surveillantList = &quot;Aucun surveillant assigné.\n&quot;;</b>
+&nbsp;        }
+<b class="nc">&nbsp;        return &quot;Epreuve : &quot; +</b>
+&nbsp;                &quot;codeECUE : &quot; + codeECUE + &#39;\n&#39; +
+&nbsp;                &quot;datePassage : &quot; + datePassage + &#39;\n&#39; +
+&nbsp;                &quot;heurePassage : &quot; + heurePassage +&#39;\n&#39; +
+&nbsp;                &quot;modalite : &quot; + modalite +&#39;\n&#39; +
+&nbsp;                &quot;duree : &quot; + duree +&#39;\n&#39; +
+<b class="nc">&nbsp;                &quot;professeur : &quot; + professeur.getNom() + &quot; &quot; + professeur.getPrenom() +&#39;\n&#39; +</b>
+&nbsp;                &quot;surveillants : &quot; +surveillantList;
+&nbsp;
+&nbsp;
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public boolean equals(Object o) {
+<b class="nc">&nbsp;        if (o == null || getClass() != o.getClass()) return false;</b>
+<b class="nc">&nbsp;        Epreuve epreuve = (Epreuve) o;</b>
+<b class="nc">&nbsp;        return duree == epreuve.duree &amp;&amp; Objects.equals(codeECUE, epreuve.codeECUE) &amp;&amp; Objects.equals(datePassage, epreuve.datePassage) &amp;&amp; Objects.equals(heurePassage, epreuve.heurePassage) &amp;&amp; modalite == epreuve.modalite;</b>
+&nbsp;    }
+&nbsp;
+&nbsp;    @Override
+&nbsp;    public int hashCode() {
+<b class="nc">&nbsp;        return Objects.hash(codeECUE, datePassage, heurePassage, modalite, duree);</b>
+&nbsp;    }
+&nbsp;}
+</code>
+</pre>
+</div>
+
+<script type="text/javascript">
+(function() {
+    var msie = false, msie9 = false;
+    /*@cc_on
+      msie = true;
+      @if (@_jscript_version >= 9)
+        msie9 = true;
+      @end
+    @*/
+
+    if (!msie || msie && msie9) {
+      hljs.highlightAll()
+      hljs.initLineNumbersOnLoad();
+    }
+})();
+</script>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2026-06-14 23:44</div>
+</div>
+</body>
+</html>

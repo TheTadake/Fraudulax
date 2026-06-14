@@ -134,7 +134,7 @@ public class Formulaire {
      * @param formulaire Liste de formulaire
      * @return Une chaîne de caractères contenant les statistiques calculées, incluant le nombre de formulaires, le nombre d'étudiants uniques, le nombre total de fraudes, la moyenne de fraudes par formulaire et l'écart type du nombre de fraudes par formulaire.
      */
-    public String statistiques( Formulaire[] formulaire){
+    public static String statistiques( Formulaire[] formulaire){
         int nbFormulaire = formulaire.length;
         int nbEtudiantUnique = 0;
         int nbFraudes = 0;
