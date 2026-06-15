@@ -30,7 +30,12 @@ public class Menu {
         this.epreuves = epreuves ;
         this.formulaires = new Formulaire[100];
         this.nbFormulaires = 0;
-        this.nbEpreuves = epreuves.length;
+        this.nbEpreuves = 0;
+        for (Epreuve ep : epreuves) {
+            if (ep != null) {
+                this.nbEpreuves++;
+            }
+        }
         this.etudiants = etudiants;
         this.scanner = new Scanner(System.in);
     }
@@ -102,6 +107,11 @@ public class Menu {
 
     private void creerEpreuve() {
         System.out.println("\n===== CRÉER UNE ÉPREUVE =====");
+        if (nbEpreuves >= epreuves.length) {
+            Epreuve[] nouvellesList = new Epreuve[epreuves.length * 2];
+            System.arraycopy(epreuves, 0, nouvellesList, 0, epreuves.length);
+            epreuves = nouvellesList;
+        }
 
         System.out.print("Code ECUE : ");
         String codeECUE = scanner.nextLine().trim();
